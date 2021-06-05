@@ -3,8 +3,11 @@
     <div v-for="deal in displayedDeals" :key="deal.dealID">
       <b-card class="custom-card">
         <b-card-title
-          >{{ deal.title
-          }}<img
+          ><router-link
+            :to="{ name: 'DealInfo', params: { dealID: deal.dealID } }"
+            class="title"
+            >{{ deal.title }}</router-link
+          ><img
             :src="getStoreLogo(deal.storeID)"
             :title="getStoreName(deal.storeID)"
             class="storeLogo"
@@ -33,14 +36,15 @@ export default {
   data() {
     return {
       displayedDeals: [],
-      storesLink: "https://www.cheapshark.com/api/1.0/stores",
       stores: [],
     };
   },
   async mounted() {
     const response = await fetch(this.dealsLink);
     const deals = await response.json();
-    const storesResponse = await fetch(this.storesLink);
+    const storesResponse = await fetch(
+      "https://www.cheapshark.com/api/1.0/stores"
+    );
     const stores = await storesResponse.json();
     console.log(deals);
     console.log(stores);
@@ -66,6 +70,10 @@ export default {
 </script>
 
 <style lang="scss">
+.title {
+  text-decoration: none;
+  color: black;
+}
 img {
   max-width: 100px;
   margin: 0;

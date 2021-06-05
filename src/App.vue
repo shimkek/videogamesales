@@ -5,7 +5,7 @@
         class="header__logo"
         src="./assets/1200px-Video-Game-Controller-Icon.png"
       />
-      <p class="header__text">videogamesales</p>
+      <router-link to="/" class="header__text">videogamesales</router-link>
     </header>
 
     <div class="body">
@@ -39,17 +39,21 @@ export default {
     font-size: 3rem;
     font-weight: 700;
     font-family: "  Courier New", Courier, monospace;
+    text-decoration: none;
   }
-
+  &__text:hover {
+    color: rgb(255, 70, 85);
+  }
   &__logo {
-    height: inherit;
-    max-width: 60px;
-    margin: 0;
+    margin-top: 5px;
+    max-height: 50px;
+    max-width: 50px;
   }
 }
 
 .body {
   margin: auto;
   margin-top: 100px;
+  padding-bottom: 100px;
 }
 </style>
