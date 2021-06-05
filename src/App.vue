@@ -1,32 +1,55 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <header class="header">
+      <img
+        class="header__logo"
+        src="./assets/1200px-Video-Game-Controller-Icon.png"
+      />
+      <p class="header__text">videogamesales</p>
+    </header>
+
+    <div class="body">
+      <router-view />
     </div>
-    <router-view />
   </div>
 </template>
 
+<script>
+export default {
+  components: {},
+};
+</script>
+
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+@import "./styles/normalize.scss";
+.header {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 60px;
+  background-color: rgb(243, 243, 243);
+  box-shadow: 0 0.1rem 0.1rem rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+
+  &__text {
+    height: inherit;
+    margin: 0 0 0 10px;
+    color: rgb(255, 70, 85);
+    font-size: 3rem;
+    font-weight: 700;
+    font-family: "  Courier New", Courier, monospace;
+  }
+
+  &__logo {
+    height: inherit;
+    max-width: 60px;
+    margin: 0;
+  }
 }
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+.body {
+  margin: auto;
+  margin-top: 100px;
 }
 </style>
