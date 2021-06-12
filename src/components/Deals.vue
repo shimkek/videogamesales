@@ -1,5 +1,9 @@
 <template>
-  <div>
+  <div class="deals">
+    <div class="d-flex justify-content-center mb-3" v-if="isLoading">
+      <b-spinner></b-spinner>
+    </div>
+
     <div v-for="deal in displayedDeals" :key="deal.dealID">
       <b-card class="custom-card">
         <b-card-title
@@ -37,6 +41,7 @@ export default {
     return {
       displayedDeals: [],
       stores: [],
+      isLoading: true,
     };
   },
   async mounted() {
@@ -48,6 +53,7 @@ export default {
     const stores = await storesResponse.json();
     console.log(deals);
     console.log(stores);
+    this.isLoading = false;
     this.displayedDeals = deals;
     this.stores = stores;
   },
@@ -70,6 +76,9 @@ export default {
 </script>
 
 <style lang="scss">
+.deals {
+  margin-top: 20px;
+}
 .title {
   text-decoration: none;
   color: black;

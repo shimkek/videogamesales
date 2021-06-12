@@ -23,8 +23,6 @@ export default {
 <style lang="scss">
 @import "./styles/normalize.scss";
 .header {
-  position: absolute;
-  top: 0;
   width: 100%;
   height: 60px;
   background-color: rgb(243, 243, 243);
@@ -53,7 +51,7 @@ export default {
 
 .body {
   margin: auto;
-  margin-top: 100px;
+  margin-top: 40px;
   padding-bottom: 100px;
 }
 </style>
