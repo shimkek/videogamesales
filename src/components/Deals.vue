@@ -31,31 +31,18 @@
 <script>
 export default {
   name: "Deals",
-  props: {
-    dealsLink: {
-      required: true,
-      type: String,
-    },
-  },
   data() {
     return {
-      displayedDeals: [],
-      stores: [],
       isLoading: true,
     };
   },
   async mounted() {
-    const response = await fetch(this.dealsLink);
-    const deals = await response.json();
-    const storesResponse = await fetch(
-      "https://www.cheapshark.com/api/1.0/stores"
+    this.$store.commit(
+      "createSearchQuery",
+      "https://www.cheapshark.com/api/1.0/deals?"
     );
-    const stores = await storesResponse.json();
-    console.log(deals);
-    console.log(stores);
+    this.$store.dispatch("mountedFetch");
     this.isLoading = false;
-    this.displayedDeals = deals;
-    this.stores = stores;
   },
   methods: {
     formatDate(time) {
@@ -70,6 +57,17 @@ export default {
     getStoreName(inputStoreID) {
       const object = this.stores.find((obj) => obj.storeID === inputStoreID);
       return object.storeName;
+    },
+  },
+  computed: {
+    displayedDeals() {
+      return this.$store.state.fetchedDeals;
+    },
+    stores() {
+      return this.$store.state.stores;
+    },
+    dealsLink() {
+      return this.$store.state.searchQuery;
     },
   },
 };

@@ -17,7 +17,6 @@
         >
         <b-form-select
           id="inline-form-custom-select-store"
-          class="mb-2 mr-sm-2 mb-sm-0"
           v-model="searchParams.selectedStoreId"
         >
           <b-form-select-option :value="null"> Choose...</b-form-select-option>
@@ -60,7 +59,6 @@
 </template>
 
 <script>
-import importedStores from "./stores.js";
 export default {
   data() {
     return {
@@ -69,9 +67,7 @@ export default {
         selectedStoreId: null,
         selectedMetacriticScore: null,
       },
-      stores: importedStores,
       cheapSharkAPILink: "https://www.cheapshark.com/api/1.0/deals?",
-      searchQuery: null,
     };
   },
   methods: {
@@ -82,9 +78,10 @@ export default {
         console.log("No search params entered");
         return;
       }
-      alert(JSON.stringify(this.searchQuery));
+      console.log(`Searching: "${this.searchQuery}"`);
+      this.$store.dispatch("fetchDeals");
       this.emptySearchParams();
-      this.searchQuery = null;
+      this.$store.commit("createSearchQuery", null);
     },
     isStoreActive(storeState) {
       return storeState ? false : true;
@@ -115,13 +112,21 @@ export default {
       if (isEmpty) {
         return;
       } else {
-        this.searchQuery = searchQuery;
+        this.$store.commit("createSearchQuery", searchQuery);
       }
     },
     emptySearchParams() {
       this.searchParams.selectedDealName = null;
       this.searchParams.selectedStoreId = null;
       this.searchParams.selectedMetacriticScore = null;
+    },
+  },
+  computed: {
+    searchQuery() {
+      return this.$store.state.searchQuery;
+    },
+    stores() {
+      return this.$store.state.stores;
     },
   },
 };
