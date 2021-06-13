@@ -1,6 +1,6 @@
 <template>
   <div class="deals">
-    <div class="d-flex justify-content-center mb-3" v-if="isLoading">
+    <div class="d-flex justify-content-center mb-3" v-if="dealsAreLoading">
       <b-spinner></b-spinner>
     </div>
 
@@ -31,18 +31,12 @@
 <script>
 export default {
   name: "Deals",
-  data() {
-    return {
-      isLoading: true,
-    };
-  },
-  async mounted() {
+  async created() {
     this.$store.commit(
       "createSearchQuery",
       "https://www.cheapshark.com/api/1.0/deals?"
     );
     this.$store.dispatch("mountedFetch");
-    this.isLoading = false;
   },
   methods: {
     formatDate(time) {
@@ -69,6 +63,9 @@ export default {
     dealsLink() {
       return this.$store.state.searchQuery;
     },
+    dealsAreLoading() {
+      return this.$store.state.dealsAreLoading;
+    },
   },
 };
 </script>
@@ -76,6 +73,9 @@ export default {
 <style lang="scss">
 .deals {
   margin-top: 20px;
+}
+.deals a:hover {
+  text-decoration: none;
 }
 .title {
   text-decoration: none;

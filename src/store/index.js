@@ -8,6 +8,7 @@ export default new Vuex.Store({
     fetchedDeals: [],
     searchQuery: null,
     stores: [],
+    dealsAreLoading: true,
   },
   mutations: {
     addDeals(state, deals) {
@@ -19,13 +20,19 @@ export default new Vuex.Store({
     createSearchQuery(state, searchQuery) {
       state.searchQuery = searchQuery;
     },
+    changeLoadingStatus(state, status) {
+      state.dealsAreLoading = status;
+    },
   },
   actions: {
     async fetchDeals(context) {
+      context.commit("addDeals", []);
+      context.commit("changeLoadingStatus", true);
       const response = await fetch(context.state.searchQuery);
       const deals = await response.json();
       console.log(deals);
       context.commit("addDeals", deals);
+      context.commit("changeLoadingStatus", false);
     },
     async mountedFetch(context) {
       const storesResponse = await fetch(

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="stickySearchForm">
     <b-form class="inline" @submit="onSubmit">
       <div>
         <b-form-input
@@ -9,7 +9,7 @@
         ></b-form-input>
       </div>
 
-      <div class="formBlock">
+      <div class="selectBlock">
         <label
           class="mr-sm-2 formBlock__element"
           for="inline-form-custom-select-store"
@@ -31,7 +31,7 @@
         </b-form-select>
       </div>
 
-      <div class="formBlock">
+      <div class="selectBlock">
         <label
           class="mr-sm-2 formBlock__element"
           for="inline-form-custom-select-metacritif"
@@ -51,6 +51,16 @@
         ></b-form-select>
       </div>
 
+      <div>
+        <b-form-checkbox
+          v-model="searchParams.onSale"
+          name="check-button"
+          switch
+        >
+          On sale
+        </b-form-checkbox>
+      </div>
+
       <b-button variant="outline-dark" class="formBlock" type="submit"
         >Search <b-icon icon="search"></b-icon
       ></b-button>
@@ -66,6 +76,7 @@ export default {
         selectedDealName: null,
         selectedStoreId: null,
         selectedMetacriticScore: null,
+        onSale: true,
       },
       cheapSharkAPILink: "https://www.cheapshark.com/api/1.0/deals?",
     };
@@ -73,7 +84,7 @@ export default {
   methods: {
     onSubmit(event) {
       event.preventDefault();
-      this.getSearchQuery(this.searchParams);
+      this.getSearchQuery();
       if (this.searchQuery === null) {
         console.log("No search params entered");
         return;
@@ -86,34 +97,26 @@ export default {
     isStoreActive(storeState) {
       return storeState ? false : true;
     },
-    getSearchQuery(searchParams) {
-      //check is params are empty
-      let isEmpty = true;
-
-      let searchQuery = this.cheapSharkAPILink;
-      if (searchParams.selectedDealName !== null) {
+    getSearchQuery() {
+      let searchQuery = `${this.cheapSharkAPILink}onSale=${
+        this.searchParams.onSale ? 1 : 0
+      }&`;
+      if (this.searchParams.selectedDealName !== null) {
         searchQuery = searchQuery.concat(
-          `title=${searchParams.selectedDealName}&`
+          `title=${this.searchParams.selectedDealName}&`
         );
-        isEmpty = false;
       }
-      if (searchParams.selectedStoreId !== null) {
+      if (this.searchParams.selectedStoreId !== null) {
         searchQuery = searchQuery.concat(
-          `storeID=${searchParams.selectedStoreId}&`
+          `storeID=${this.searchParams.selectedStoreId}&`
         );
-        isEmpty = false;
       }
-      if (searchParams.selectedMetacriticScore !== null) {
+      if (this.searchParams.selectedMetacriticScore !== null) {
         searchQuery = searchQuery.concat(
-          `metacritic=${searchParams.selectedMetacriticScore}`
+          `metacritic=${this.searchParams.selectedMetacriticScore}`
         );
-        isEmpty = false;
       }
-      if (isEmpty) {
-        return;
-      } else {
-        this.$store.commit("createSearchQuery", searchQuery);
-      }
+      this.$store.commit("createSearchQuery", searchQuery);
     },
     emptySearchParams() {
       this.searchParams.selectedDealName = null;
@@ -133,17 +136,32 @@ export default {
 </script>
 
 <style lang="scss">
+option {
+  color: black;
+}
+option:disabled {
+  color: rgb(170, 170, 170);
+}
+.stickySearchForm {
+  position: sticky;
+  top: 20px;
+}
 .inline {
-  max-width: 740px;
-  max-height: 70px;
+  position: absolute;
+  right: 15%;
+  width: 240px;
+  height: 300px;
   display: flex;
-  margin: auto;
-  align-items: flex-end;
   justify-content: space-between;
   padding: 10px;
   border: 1px solid rgba(0, 0, 0, 0.125);
+  flex-direction: column;
+  align-items: stretch;
 }
-.formBlock {
+.custom-select {
+  width: 100%;
+}
+.selectBlock {
   &__element {
     padding-right: 1%;
   }

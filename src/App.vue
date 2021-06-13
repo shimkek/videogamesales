@@ -48,7 +48,9 @@ export default {
     max-width: 50px;
   }
 }
-
+.header a:hover {
+  text-decoration: none;
+}
 .body {
   margin: auto;
   margin-top: 40px;
