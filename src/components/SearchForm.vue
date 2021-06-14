@@ -12,6 +12,28 @@
       <div class="selectBlock">
         <label
           class="mr-sm-2 formBlock__element"
+          for="inline-form-custom-select-sortby"
+          >Sort by</label
+        >
+        <b-form-select
+          id="inline-form-custom-select-sortby"
+          class="mb-2 mr-sm-2 mb-sm-0"
+          v-model="searchParams.sortBy"
+          :options="[
+            { text: 'Choose...', value: null },
+            { text: 'Savings', value: ['Savings', 1] },
+            { text: 'Title', value: ['Title', 0] },
+            { text: 'Recent', value: ['Recent', 0] },
+            { text: 'Highest Price', value: ['Price', 1] },
+            { text: 'Lowest Price', value: ['Price', 0] },
+            { text: 'Metacritic score', value: ['Metacritic', 0] },
+          ]"
+        ></b-form-select>
+      </div>
+
+      <div class="selectBlock">
+        <label
+          class="mr-sm-2 formBlock__element"
           for="inline-form-custom-select-store"
           >Store</label
         >
@@ -34,7 +56,7 @@
       <div class="selectBlock">
         <label
           class="mr-sm-2 formBlock__element"
-          for="inline-form-custom-select-metacritif"
+          for="inline-form-custom-select-metacritic"
           >Metacritic Score</label
         >
         <b-form-select
@@ -77,6 +99,7 @@ export default {
         selectedStoreId: null,
         selectedMetacriticScore: null,
         onSale: true,
+        sortBy: null,
       },
       cheapSharkAPILink: "https://www.cheapshark.com/api/1.0/deals?",
     };
@@ -113,7 +136,12 @@ export default {
       }
       if (this.searchParams.selectedMetacriticScore !== null) {
         searchQuery = searchQuery.concat(
-          `metacritic=${this.searchParams.selectedMetacriticScore}`
+          `metacritic=${this.searchParams.selectedMetacriticScore}&`
+        );
+      }
+      if (this.searchParams.sortBy !== null) {
+        searchQuery = searchQuery.concat(
+          `sortBy=${this.searchParams.sortBy[0]}&desc=${this.searchParams.sortBy[1]}`
         );
       }
       this.$store.commit("createSearchQuery", searchQuery);
@@ -122,6 +150,7 @@ export default {
       this.searchParams.selectedDealName = null;
       this.searchParams.selectedStoreId = null;
       this.searchParams.selectedMetacriticScore = null;
+      this.searchParams.sortBy = null;
     },
   },
   computed: {
@@ -150,7 +179,7 @@ option:disabled {
   position: absolute;
   right: 15%;
   width: 240px;
-  height: 300px;
+  height: 370px;
   display: flex;
   justify-content: space-between;
   padding: 10px;

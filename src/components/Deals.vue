@@ -11,13 +11,21 @@
             :to="{ name: 'DealInfo', params: { dealID: deal.dealID } }"
             class="title"
             >{{ deal.title }}</router-link
+          ><span
+            v-if="deal.normalPrice !== deal.salePrice"
+            class="discountPercentage"
+            >{{ "-" + Math.trunc(deal.savings) + "%" }}</span
           ><img
             :src="getStoreLogo(deal.storeID)"
             :title="getStoreName(deal.storeID)"
             class="storeLogo"
         /></b-card-title>
         <div class="price">
-          <span class="price price_normal">{{ deal.normalPrice + "$" }}</span>
+          <span
+            v-if="deal.normalPrice !== deal.salePrice"
+            class="price price_normal"
+            >{{ deal.normalPrice + "$" }}</span
+          >
           <span class="price price_discounted">{{ deal.salePrice + "$" }}</span>
           <b-card-text class="small text-muted"
             >Last updated {{ formatDate(deal.lastChange) }}</b-card-text
@@ -71,6 +79,10 @@ export default {
 </script>
 
 <style lang="scss">
+.discountPercentage {
+  font-size: 14px;
+  margin-left: 5px;
+}
 .deals {
   margin-top: 20px;
 }

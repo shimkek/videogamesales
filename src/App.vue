@@ -1,10 +1,7 @@
 <template>
   <div id="app">
     <header class="header">
-      <img
-        class="header__logo"
-        src="./assets/1200px-Video-Game-Controller-Icon.png"
-      />
+      <img class="header__logo" src="./assets/logo.png" />
       <router-link to="/" class="header__text">videogamesales</router-link>
     </header>
 
@@ -54,6 +51,6 @@ export default {
 .body {
   margin: auto;
   margin-top: 40px;
-  padding-bottom: 100px;
+  padding-bottom: 600px;
 }
 </style>
