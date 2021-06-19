@@ -1,6 +1,6 @@
 <template>
   <div class="stickySearchForm">
-    <b-form class="inline" @submit="onSubmit">
+    <b-form class="inline" @submit="onSubmit" @reset="onReset">
       <div>
         <b-form-input
           v-model="searchParams.selectedDealName"
@@ -83,6 +83,9 @@
         </b-form-checkbox>
       </div>
 
+      <b-button variant="outline-danger" class="formBlock" type="reset"
+        >Clear <b-icon icon="x-octagon"></b-icon
+      ></b-button>
       <b-button variant="outline-dark" class="formBlock" type="submit"
         >Search <b-icon icon="search"></b-icon
       ></b-button>
@@ -114,8 +117,11 @@ export default {
       }
       console.log(`Searching: "${this.searchQuery}"`);
       this.$store.dispatch("fetchDeals");
-      this.emptySearchParams();
       this.$store.commit("createSearchQuery", null);
+    },
+    onReset(event) {
+      event.preventDefault();
+      this.emptySearchParams();
     },
     isStoreActive(storeState) {
       return storeState ? false : true;
@@ -179,7 +185,7 @@ option:disabled {
   position: absolute;
   right: 15%;
   width: 240px;
-  height: 370px;
+  height: 420px;
   display: flex;
   justify-content: space-between;
   padding: 10px;

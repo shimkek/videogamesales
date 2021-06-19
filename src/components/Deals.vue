@@ -1,37 +1,41 @@
 <template>
   <div class="deals">
-    <div class="d-flex justify-content-center mb-3" v-if="dealsAreLoading">
+    <div class="d-flex justify-content-center mb-3" v-if="areDealsLoading">
       <b-spinner></b-spinner>
     </div>
 
-    <div v-for="deal in displayedDeals" :key="deal.dealID">
-      <b-card class="custom-card">
-        <b-card-title
-          ><router-link
-            :to="{ name: 'DealInfo', params: { dealID: deal.dealID } }"
-            class="title"
-            >{{ deal.title }}</router-link
-          ><span
-            v-if="deal.normalPrice !== deal.salePrice"
-            class="discountPercentage"
-            >{{ "-" + Math.trunc(deal.savings) + "%" }}</span
-          ><img
-            :src="getStoreLogo(deal.storeID)"
-            :title="getStoreName(deal.storeID)"
-            class="storeLogo"
-        /></b-card-title>
-        <div class="price">
-          <span
-            v-if="deal.normalPrice !== deal.salePrice"
-            class="price price_normal"
-            >{{ deal.normalPrice + "$" }}</span
-          >
-          <span class="price price_discounted">{{ deal.salePrice + "$" }}</span>
-          <b-card-text class="small text-muted"
-            >Last updated {{ formatDate(deal.lastChange) }}</b-card-text
-          >
-        </div>
-      </b-card>
+    <div v-if="stores">
+      <div v-for="deal in displayedDeals" :key="deal.dealID">
+        <b-card class="custom-card">
+          <b-card-title
+            ><router-link
+              :to="{ name: 'DealInfo', params: { dealID: deal.dealID } }"
+              class="title"
+              >{{ deal.title }}</router-link
+            ><span
+              v-if="deal.normalPrice !== deal.salePrice"
+              class="discountPercentage"
+              >{{ "-" + Math.trunc(deal.savings) + "%" }}</span
+            ><img
+              :src="getStoreLogo(deal.storeID)"
+              :title="getStoreName(deal.storeID)"
+              class="storeLogo"
+          /></b-card-title>
+          <div class="price">
+            <span
+              v-if="deal.normalPrice !== deal.salePrice"
+              class="price price_normal"
+              >{{ deal.normalPrice + "$" }}</span
+            >
+            <span class="price price_discounted">{{
+              deal.salePrice + "$"
+            }}</span>
+            <b-card-text class="small text-muted"
+              >Last updated {{ formatDate(deal.lastChange) }}</b-card-text
+            >
+          </div>
+        </b-card>
+      </div>
     </div>
   </div>
 </template>
@@ -40,11 +44,13 @@
 export default {
   name: "Deals",
   async created() {
-    this.$store.commit(
-      "createSearchQuery",
-      "https://www.cheapshark.com/api/1.0/deals?"
-    );
-    this.$store.dispatch("mountedFetch");
+    if (this.displayedDeals === null) {
+      this.$store.commit(
+        "createSearchQuery",
+        "https://www.cheapshark.com/api/1.0/deals?"
+      );
+      this.$store.dispatch("mountedFetch");
+    }
   },
   methods: {
     formatDate(time) {
@@ -71,8 +77,8 @@ export default {
     dealsLink() {
       return this.$store.state.searchQuery;
     },
-    dealsAreLoading() {
-      return this.$store.state.dealsAreLoading;
+    areDealsLoading() {
+      return this.$store.state.areDealsLoading;
     },
   },
 };
@@ -101,6 +107,7 @@ img {
   margin: auto;
   margin-bottom: 5px;
   max-width: 740px;
+  max-height: 136px;
 }
 .price {
   font-size: 20px;

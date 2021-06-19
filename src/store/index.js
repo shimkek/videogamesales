@@ -5,10 +5,10 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    fetchedDeals: [],
+    fetchedDeals: null,
     searchQuery: null,
-    stores: [],
-    dealsAreLoading: true,
+    stores: null,
+    areDealsLoading: true,
   },
   mutations: {
     addDeals(state, deals) {
@@ -20,28 +20,31 @@ export default new Vuex.Store({
     createSearchQuery(state, searchQuery) {
       state.searchQuery = searchQuery;
     },
-    changeLoadingStatus(state, status) {
-      state.dealsAreLoading = status;
+    changeDealsLoadingStatus(state, status) {
+      state.areDealsLoading = status;
     },
   },
   actions: {
     async fetchDeals(context) {
       context.commit("addDeals", []);
-      context.commit("changeLoadingStatus", true);
+      context.commit("changeDealsLoadingStatus", true);
       const response = await fetch(context.state.searchQuery);
       const deals = await response.json();
       console.log(deals);
       context.commit("addDeals", deals);
-      context.commit("changeLoadingStatus", false);
+      context.commit("changeDealsLoadingStatus", false);
     },
     async mountedFetch(context) {
+      context.dispatch("fetchStores");
+      context.dispatch("fetchDeals");
+    },
+    async fetchStores(context) {
       const storesResponse = await fetch(
         "https://www.cheapshark.com/api/1.0/stores"
       );
       const stores = await storesResponse.json();
       console.log(stores);
       context.commit("addStores", stores);
-      context.dispatch("fetchDeals");
     },
   },
   modules: {},

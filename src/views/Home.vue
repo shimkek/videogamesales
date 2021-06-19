@@ -1,7 +1,7 @@
 <template>
   <div>
     <SearchForm />
-    <Deals :dealsLink="dealsLink" />
+    <Deals />
   </div>
 </template>
 
@@ -13,11 +13,6 @@ export default {
   components: {
     Deals,
     SearchForm,
-  },
-  data() {
-    return {
-      dealsLink: "https://www.cheapshark.com/api/1.0/deals?",
-    };
   },
 };
 </script>
