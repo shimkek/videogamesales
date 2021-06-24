@@ -7,33 +7,40 @@
     <div v-if="stores">
       <div v-for="deal in displayedDeals" :key="deal.dealID">
         <b-card class="custom-card">
-          <b-card-title
-            ><router-link
-              :to="{ name: 'DealInfo', params: { dealID: deal.dealID } }"
-              class="title"
-              >{{ deal.title }}</router-link
-            ><span
-              v-if="deal.normalPrice !== deal.salePrice"
-              class="discountPercentage"
-              >{{ "-" + Math.trunc(deal.savings) + "%" }}</span
-            ><img
-              :src="getStoreLogo(deal.storeID)"
-              :title="getStoreName(deal.storeID)"
-              class="storeLogo"
-          /></b-card-title>
-          <div class="price">
-            <span
-              v-if="deal.normalPrice !== deal.salePrice"
-              class="price price_normal"
-              >{{ deal.normalPrice + "$" }}</span
-            >
-            <span class="price price_discounted">{{
-              deal.salePrice + "$"
-            }}</span>
-            <b-card-text class="small text-muted"
-              >Last updated {{ formatDate(deal.lastChange) }}</b-card-text
-            >
-          </div>
+          <b-row>
+            <b-col cols="10">
+              <b-card-title
+                ><router-link
+                  :to="{ name: 'DealInfo', params: { dealID: deal.dealID } }"
+                  class="title"
+                  >{{ deal.title }}</router-link
+                ><span
+                  v-if="deal.normalPrice !== deal.salePrice"
+                  class="discountPercentage"
+                  >{{ "-" + Math.trunc(deal.savings) + "%" }}</span
+                ></b-card-title
+              >
+              <div class="price">
+                <span
+                  v-if="deal.normalPrice !== deal.salePrice"
+                  class="price price_normal"
+                  >{{ deal.normalPrice + "$" }}</span
+                >
+                <span class="price price_discounted">{{
+                  deal.salePrice + "$"
+                }}</span>
+                <b-card-text class="small text-muted"
+                  >Last updated {{ formatDate(deal.lastChange) }}</b-card-text
+                >
+              </div>
+            </b-col>
+            <b-col cols="2">
+              <img
+                :src="getStoreLogo(deal.storeID)"
+                :title="getStoreName(deal.storeID)"
+                class="storeLogo"
+            /></b-col>
+          </b-row>
         </b-card>
       </div>
     </div>
@@ -45,11 +52,11 @@ export default {
   name: "Deals",
   async created() {
     if (this.displayedDeals === null) {
-      this.$store.commit(
-        "createSearchQuery",
-        "https://www.cheapshark.com/api/1.0/deals?"
-      );
-      this.$store.dispatch("mountedFetch");
+      if (this.stores === null) {
+        this.$store.dispatch("mountedFetch");
+      } else {
+        this.$store.dispatch("fetchDeals");
+      }
     }
   },
   methods: {
@@ -104,7 +111,6 @@ img {
   margin: 0;
 }
 .custom-card {
-  margin: auto;
   margin-bottom: 5px;
   max-width: 740px;
   max-height: 136px;

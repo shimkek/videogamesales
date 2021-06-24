@@ -21,7 +21,7 @@
           v-model="searchParams.sortBy"
           :options="[
             { text: 'Choose...', value: null },
-            { text: 'Savings', value: ['Savings', 1] },
+            { text: 'Savings', value: ['Savings', 0] },
             { text: 'Title', value: ['Title', 0] },
             { text: 'Recent', value: ['Recent', 0] },
             { text: 'Highest Price', value: ['Price', 1] },
@@ -104,20 +104,19 @@ export default {
         onSale: true,
         sortBy: null,
       },
-      cheapSharkAPILink: "https://www.cheapshark.com/api/1.0/deals?",
     };
   },
   methods: {
     onSubmit(event) {
       event.preventDefault();
-      this.getSearchQuery();
-      if (this.searchQuery === null) {
+      this.addSearchParams();
+      /*if (this.searchQuery === null) {
         console.log("No search params entered");
         return;
-      }
-      console.log(`Searching: "${this.searchQuery}"`);
+      }*/
+      console.log(this.searchParams);
       this.$store.dispatch("fetchDeals");
-      this.$store.commit("createSearchQuery", null);
+      this.$store.commit("addSearchParams", null);
     },
     onReset(event) {
       event.preventDefault();
@@ -126,43 +125,31 @@ export default {
     isStoreActive(storeState) {
       return storeState ? false : true;
     },
-    getSearchQuery() {
-      let searchQuery = `${this.cheapSharkAPILink}onSale=${
-        this.searchParams.onSale ? 1 : 0
-      }&`;
-      if (this.searchParams.selectedDealName !== null) {
-        searchQuery = searchQuery.concat(
-          `title=${this.searchParams.selectedDealName}&`
-        );
-      }
-      if (this.searchParams.selectedStoreId !== null) {
-        searchQuery = searchQuery.concat(
-          `storeID=${this.searchParams.selectedStoreId}&`
-        );
-      }
-      if (this.searchParams.selectedMetacriticScore !== null) {
-        searchQuery = searchQuery.concat(
-          `metacritic=${this.searchParams.selectedMetacriticScore}&`
-        );
-      }
+    addSearchParams() {
+      let params = {
+        params: {
+          title: this.searchParams.selectedDealName,
+          storeID: this.searchParams.selectedStoreId,
+          metacritic: this.searchParams.selectedMetacriticScore,
+          onSale: this.searchParams.onSale ? 1 : 0,
+        },
+      };
       if (this.searchParams.sortBy !== null) {
-        searchQuery = searchQuery.concat(
-          `sortBy=${this.searchParams.sortBy[0]}&desc=${this.searchParams.sortBy[1]}`
-        );
+        params.params.sortBy = this.searchParams.sortBy[0];
+        params.params.desc = this.searchParams.sortBy[1];
       }
-      this.$store.commit("createSearchQuery", searchQuery);
+      // `sortBy=${this.searchParams.sortBy[0]}&desc=${this.searchParams.sortBy[1]}`
+      this.$store.commit("addSearchParams", params);
     },
     emptySearchParams() {
       this.searchParams.selectedDealName = null;
       this.searchParams.selectedStoreId = null;
       this.searchParams.selectedMetacriticScore = null;
       this.searchParams.sortBy = null;
+      this.searchParams.onSale = true;
     },
   },
   computed: {
-    searchQuery() {
-      return this.$store.state.searchQuery;
-    },
     stores() {
       return this.$store.state.stores;
     },

@@ -1,7 +1,7 @@
 <template>
   <div>
     <SearchForm />
-    <Deals />
+    <Deals class="centered" />
   </div>
 </template>
 
@@ -16,3 +16,10 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+.centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+</style>
