@@ -1,11 +1,7 @@
 <template>
-  <div class="deals">
-    <div class="d-flex justify-content-center mb-3" v-if="areDealsLoading">
-      <b-spinner></b-spinner>
-    </div>
-
+  <div class="deals" id="deals">
     <div v-if="stores">
-      <div v-for="deal in displayedDeals" :key="deal.dealID">
+      <div v-for="deal in displayedDeals" :key="pageNumber + deal.dealID">
         <b-card class="custom-card">
           <b-row>
             <b-col cols="10">
@@ -43,15 +39,39 @@
           </b-row>
         </b-card>
       </div>
+      <p v-if="maxPages()" class="scrollEndText">That's it!</p>
+      <div class="d-flex justify-content-center mb-3" v-if="areDealsLoading">
+        <b-spinner></b-spinner>
+      </div>
     </div>
+    <div class="preloader" v-if="preloader" />
+    <div
+      v-observe-visibility="
+        maxPages()
+          ? false
+          : {
+              callback: visibilityChanged,
+              intersection: {
+                threshold: 1.0,
+              },
+              throttle: 600,
+            }
+      "
+      class="observer"
+    ></div>
   </div>
 </template>
 
 <script>
 export default {
   name: "Deals",
+  data() {
+    return {
+      isVisible: null,
+    };
+  },
   async created() {
-    if (this.displayedDeals === null) {
+    if (this.displayedDeals.length === 0) {
       if (this.stores === null) {
         this.$store.dispatch("mountedFetch");
       } else {
@@ -59,6 +79,7 @@ export default {
       }
     }
   },
+  components: {},
   methods: {
     formatDate(time) {
       const date = new Date(time * 1000); // create Date object
@@ -72,6 +93,21 @@ export default {
     getStoreName(inputStoreID) {
       const object = this.stores.find((obj) => obj.storeID === inputStoreID);
       return object.storeName;
+    },
+    visibilityChanged(isVisible, entry) {
+      this.isVisible = isVisible;
+      console.log(entry);
+      if (isVisible && !this.areDealsLoading) {
+        console.log("load more deals");
+        this.$store.dispatch("loadMoreDeals");
+      }
+    },
+    maxPages() {
+      if (this.pageNumber + 1 >= this.totalPageCount) {
+        return true;
+      } else {
+        return false;
+      }
     },
   },
   computed: {
@@ -87,11 +123,28 @@ export default {
     areDealsLoading() {
       return this.$store.state.areDealsLoading;
     },
+    pageNumber() {
+      return this.$store.state.params.params.pageNumber;
+    },
+    totalPageCount() {
+      return this.$store.state.totalPageCount;
+    },
+    preloader() {
+      return this.displayedDeals.length === 0 ? true : false;
+    },
   },
 };
 </script>
 
 <style lang="scss">
+.preloader {
+  width: 100%;
+  height: 100vh;
+}
+.observer {
+  width: 100%;
+  height: 20vh;
+}
 .discountPercentage {
   font-size: 14px;
   margin-left: 5px;
@@ -132,5 +185,10 @@ img {
   max-height: 64px;
   max-width: 64px;
   float: right;
+}
+.scrollEndText {
+  font-size: 25px;
+  text-align: center;
+  color: var(--secondary);
 }
 </style>

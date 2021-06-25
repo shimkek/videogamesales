@@ -11,12 +11,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  components: {},
-};
-</script>
-
 <style lang="scss">
 @import "./styles/normalize.scss";
 .header {
@@ -51,6 +45,6 @@ export default {
 .body {
   margin: auto;
   margin-top: 40px;
-  padding-bottom: 600px;
+  padding-bottom: 200px;
 }
 </style>

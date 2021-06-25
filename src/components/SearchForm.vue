@@ -79,7 +79,7 @@
           name="check-button"
           switch
         >
-          On sale
+          On sale only
         </b-form-checkbox>
       </div>
 
@@ -89,6 +89,9 @@
       <b-button variant="outline-dark" class="formBlock" type="submit"
         >Search <b-icon icon="search"></b-icon
       ></b-button>
+      <p v-if="totalPageCount !== 0" class="pageCounter">
+        {{ pageNumber + 1 }} out of {{ totalPageCount }}
+      </p>
     </b-form>
   </div>
 </template>
@@ -110,13 +113,10 @@ export default {
     onSubmit(event) {
       event.preventDefault();
       this.addSearchParams();
-      /*if (this.searchQuery === null) {
-        console.log("No search params entered");
-        return;
-      }*/
       console.log(this.searchParams);
+      this.$store.commit("clearDeals");
+      this.$store.commit("addPreloader");
       this.$store.dispatch("fetchDeals");
-      this.$store.commit("addSearchParams", null);
     },
     onReset(event) {
       event.preventDefault();
@@ -132,13 +132,14 @@ export default {
           storeID: this.searchParams.selectedStoreId,
           metacritic: this.searchParams.selectedMetacriticScore,
           onSale: this.searchParams.onSale ? 1 : 0,
+          pageNumber: 0,
+          pageSize: 50,
         },
       };
       if (this.searchParams.sortBy !== null) {
         params.params.sortBy = this.searchParams.sortBy[0];
         params.params.desc = this.searchParams.sortBy[1];
       }
-      // `sortBy=${this.searchParams.sortBy[0]}&desc=${this.searchParams.sortBy[1]}`
       this.$store.commit("addSearchParams", params);
     },
     emptySearchParams() {
@@ -152,6 +153,12 @@ export default {
   computed: {
     stores() {
       return this.$store.state.stores;
+    },
+    pageNumber() {
+      return this.$store.state.params.params.pageNumber;
+    },
+    totalPageCount() {
+      return this.$store.state.totalPageCount;
     },
   },
 };
@@ -167,6 +174,12 @@ option:disabled {
 .stickySearchForm {
   position: sticky;
   top: 20px;
+}
+.pageCounter {
+  position: absolute;
+  bottom: -50px;
+  width: 218px;
+  text-align: center;
 }
 .inline {
   position: absolute;
