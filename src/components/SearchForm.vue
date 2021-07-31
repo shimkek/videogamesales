@@ -2,6 +2,7 @@
   <div class="stickySearchForm">
     <b-form class="inline" @submit="onSubmit" @reset="onReset">
       <div>
+        <label> Name</label>
         <b-form-input
           v-model="searchParams.selectedDealName"
           placeholder='"Mass Effect 2"'
@@ -89,7 +90,7 @@
       <b-button variant="outline-dark" class="formBlock" type="submit"
         >Search <b-icon icon="search"></b-icon
       ></b-button>
-      <p v-if="totalPageCount !== 0" class="pageCounter">
+      <p v-if="totalPageCount" class="pageCounter">
         {{ pageNumber + 1 }} out of {{ totalPageCount }}
       </p>
     </b-form>
@@ -171,10 +172,6 @@ option {
 option:disabled {
   color: rgb(170, 170, 170);
 }
-.stickySearchForm {
-  position: sticky;
-  top: 20px;
-}
 .pageCounter {
   position: absolute;
   bottom: -50px;
@@ -182,8 +179,6 @@ option:disabled {
   text-align: center;
 }
 .inline {
-  position: absolute;
-  right: 15%;
   width: 240px;
   height: 420px;
   display: flex;

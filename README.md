@@ -1,4 +1,7 @@
 # videogamesales
+Displays hot videogame deals and detailed information about them. Allows comparing prices in different stores. Uses cheapshark.com API.
+
+To enable the Steam News Component and bypass CORS error, please, visit https://cors-anywhere.herokuapp.com and press the button to allow use for your ip adress.
 
 ## Project setup
 ```

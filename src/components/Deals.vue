@@ -99,7 +99,7 @@ export default {
       console.log(entry);
       if (isVisible && !this.areDealsLoading) {
         console.log("load more deals");
-        this.$store.dispatch("loadMoreDeals");
+        // this.$store.dispatch("loadMoreDeals");
       }
     },
     maxPages() {
@@ -148,9 +148,6 @@ export default {
 .discountPercentage {
   font-size: 14px;
   margin-left: 5px;
-}
-.deals {
-  margin-top: 20px;
 }
 .deals a:hover {
   text-decoration: none;

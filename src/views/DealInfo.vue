@@ -8,15 +8,19 @@
     </div>
 
     <div v-if="dealInfo && stores" class="deal">
-      <h1>
-        {{ dealInfo.gameInfo.name }}
-        <img
-          v-if="stores !== null"
-          :src="getStoreLogo(dealInfo.gameInfo.storeID)"
-          :title="getStoreName(dealInfo.gameInfo.storeID)"
-          class="storeLogo"
-        />
-      </h1>
+      <b-row>
+        <b-col cols="10">
+          <h1>
+            {{ dealInfo.gameInfo.name }}
+          </h1></b-col
+        >
+        <b-col cols="2">
+          <img
+            v-if="stores !== null"
+            :src="getStoreLogo(dealInfo.gameInfo.storeID)"
+            :title="getStoreName(dealInfo.gameInfo.storeID)"
+            class="storeLogo" /></b-col
+      ></b-row>
       <div class="price">
         <span class="price price_discounted">Deal price: </span>
         <span
@@ -41,7 +45,7 @@
                 Publisher: {{ dealInfo.gameInfo.publisher }}
               </b-card-text>
 
-              <b-card-text
+              <b-card-text v-if="dealInfo.gameInfo.releaseDate !== 0"
                 >Release date:
                 {{ formatDate(dealInfo.gameInfo.releaseDate) }}</b-card-text
               >
@@ -58,6 +62,7 @@
                 <p
                   v-for="cheaperDeal in dealInfo.cheaperStores"
                   :key="cheaperDeal.dealID"
+                  class="about__cheaperDeal"
                 >
                   <router-link
                     :to="{
@@ -223,6 +228,11 @@ export default {
 </script>
 
 <style lang="scss">
+.about {
+  &__cheaperDeal {
+    margin: 8px 0 0 0;
+  }
+}
 .about-card {
   border-top-left-radius: 0;
 }

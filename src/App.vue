@@ -36,7 +36,7 @@
   &__logo {
     margin-top: 5px;
     max-height: 50px;
-    max-width: 50px;
+    width: 50px;
   }
 }
 .header a:hover {
