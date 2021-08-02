@@ -25,7 +25,7 @@
     height: inherit;
     margin: 0 0 0 10px;
     color: rgb(255, 70, 85);
-    font-size: 3rem;
+    font-size: 2rem;
     font-weight: 700;
     font-family: "  Courier New", Courier, monospace;
     text-decoration: none;

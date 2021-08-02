@@ -1,16 +1,17 @@
 <template>
-  <div>
-    <Deals class="centered" />
+  <div class="page-container d-flex justify-content-center">
+    <div class="deals-container">
+      <Deals class="" />
+    </div>
 
-    <div class="searchForm-container" id="searchForm-container">
+    <div v-show="isSearchFormOpen" class="searchForm-container">
+      <button @click="closeSearchForm" class="searchForm__back-btn">
+        ⟵ Back to deals
+      </button>
       <SearchForm class="searchForm" />
     </div>
 
-    <div class="searchForm__button-container">
-      <button class="searchForm__button" @click="showSearchForm()">
-        Search
-      </button>
-    </div>
+    <button class="searchForm__button" @click="showSearchForm">Search</button>
   </div>
 </template>
 
@@ -23,57 +24,57 @@ export default {
     Deals,
     SearchForm,
   },
+  data() {
+    return {
+      isSearchFormOpen: false,
+    };
+  },
   methods: {
     showSearchForm() {
-      const searchForm = document.getElementById("searchForm-container");
-      searchForm.style.display = "block";
-      console.log("test");
+      this.isSearchFormOpen = true;
+    },
+
+    closeSearchForm() {
+      this.isSearchFormOpen = false;
     },
   },
 };
 </script>
+
 <style lang="scss">
-.centered {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.page-container {
+  position: relative;
 }
+
+.deals-container {
+  margin-right: 10px;
+}
+
 .searchForm {
   position: sticky;
   top: 20px;
 }
-.searchForm__button {
-  background-color: #17a2b8;
-  display: none;
-  font-weight: 400;
-  color: #212529;
-  text-align: center;
-  vertical-align: middle;
-  border: 1px solid #17a2b8;
-  padding: 0.375rem 0.75rem;
-  font-size: 1rem;
-  line-height: 1.5;
-  border-radius: 0.25rem;
-  width: 80%;
-  max-width: 450px;
 
-  &-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    position: fixed;
-    bottom: 5%;
-    left: 0;
-    right: 0;
-    z-index: 3;
+.searchForm-container {
+  @media (min-width: 1280px) {
+    display: block !important;
   }
 }
+
+.searchForm__button {
+  display: none;
+}
+
+.searchForm__back-btn {
+  display: none;
+}
+
 @media only screen and (max-width: 1280px) {
-  .searchForm__button {
-    display: inline-block;
+  .deals-container {
+    margin-right: 0px;
   }
+
   .searchForm-container {
-    display: none;
     width: 100%;
     height: 100%;
     position: fixed;
@@ -81,19 +82,33 @@ export default {
     top: 0;
     background: white;
   }
+
   .searchForm {
-    position: relative;
     width: 100%;
     font-size: 1.5rem;
-    height: 60%;
   }
-  .inline {
-    width: 100%;
-    height: 100%;
+
+  .searchForm__button {
+    display: inline-block;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #17a2b8;
     border: none;
+    color: #212529;
+    padding: 7px 18px;
+    font-size: 1rem;
+    border-radius: 20px;
   }
-  .pageCounter {
-    display: none;
+
+  .searchForm__back-btn {
+    display: inline-block;
+    border: none;
+    color: blueviolet;
+    margin: 10px;
+    font-size: 18px;
+    padding: 5px 12px;
+    border-radius: 8px;
   }
 }
 </style>
