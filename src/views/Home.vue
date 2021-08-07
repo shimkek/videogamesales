@@ -1,6 +1,6 @@
 <template>
   <div class="page-container d-flex justify-content-center">
-    <div class="deals-container">
+    <div v-show="areDealsShown" class="deals-container">
       <Deals class="" />
     </div>
 
@@ -11,7 +11,9 @@
       <SearchForm />
     </div>
 
-    <button class="searchForm__button" @click="showSearchForm">Search</button>
+    <button class="searchForm__button" @click="showSearchForm">
+      Search Filters <b-icon icon="sliders" />
+    </button>
   </div>
 </template>
 
@@ -27,15 +29,18 @@ export default {
   data() {
     return {
       isSearchFormOpen: false,
+      areDealsShown: true,
     };
   },
   methods: {
     showSearchForm() {
       this.isSearchFormOpen = true;
+      this.areDealsShown = false;
     },
 
     closeSearchForm() {
       this.isSearchFormOpen = false;
+      this.areDealsShown = true;
     },
   },
 };
@@ -61,11 +66,11 @@ export default {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background-color: #a2f2ff;
-  border: 1px solid #5e8e96;
-  color: #0400ff;
+  background-color: #ffffff;
+  border: 1px solid #000000;
+  color: #000000;
   padding: 7px 18px;
-  font-size: 1rem;
+  font-size: 1.1rem;
   border-radius: 20px;
 }
 

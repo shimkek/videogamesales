@@ -6,7 +6,7 @@
     >
       <b-spinner></b-spinner>
     </div>
-
+    <div v-show="isPreloaderVisible" class="preloader" />
     <div v-if="dealInfo && stores" class="deal">
       <div class="dealInfo__header">
         <div>
@@ -218,6 +218,9 @@ export default {
     dealID() {
       return this.$route.params.dealID;
     },
+    isPreloaderVisible() {
+      return this.dealInfo === undefined ? true : false;
+    },
   },
   watch: {
     dealID(prev) {
@@ -252,7 +255,6 @@ export default {
   font-size: 30px;
   padding: 10px 10px 3px 10px;
   border: 1px solid rgba(0, 0, 0, 0.125);
-  border-bottom: 0;
   border-top-right-radius: 15px;
   border-top-left-radius: 15px;
 }
