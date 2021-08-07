@@ -8,7 +8,7 @@
       <button @click="closeSearchForm" class="searchForm__back-btn">
         ⟵ Back to deals
       </button>
-      <SearchForm class="searchForm" />
+      <SearchForm />
     </div>
 
     <button class="searchForm__button" @click="showSearchForm">Search</button>
@@ -50,30 +50,33 @@ export default {
   margin-right: 10px;
 }
 
-.searchForm {
-  position: sticky;
-  top: 20px;
-}
-
 .searchForm-container {
-  @media (min-width: 1280px) {
+  @media (min-width: 1025px) {
     display: block !important;
   }
 }
 
 .searchForm__button {
   display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #a2f2ff;
+  border: 1px solid #5e8e96;
+  color: #0400ff;
+  padding: 7px 18px;
+  font-size: 1rem;
+  border-radius: 20px;
 }
 
 .searchForm__back-btn {
   display: none;
 }
 
-@media only screen and (max-width: 1280px) {
+@media only screen and (max-width: 1024px) {
   .deals-container {
     margin-right: 0px;
   }
-
   .searchForm-container {
     width: 100%;
     height: 100%;
@@ -83,22 +86,8 @@ export default {
     background: white;
   }
 
-  .searchForm {
-    width: 100%;
-    font-size: 1.5rem;
-  }
-
   .searchForm__button {
     display: inline-block;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #17a2b8;
-    border: none;
-    color: #212529;
-    padding: 7px 18px;
-    font-size: 1rem;
-    border-radius: 20px;
   }
 
   .searchForm__back-btn {

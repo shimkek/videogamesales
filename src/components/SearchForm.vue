@@ -1,6 +1,10 @@
 <template>
-  <div class="stickySearchForm">
-    <b-form class="inline" @submit="onSubmit" @reset="onReset">
+  <div class="searchForm">
+    <b-form
+      class="searchForm__contents"
+      @submit.prevent="onSubmit"
+      @reset.prevent="onReset"
+    >
       <div>
         <label> Name</label>
         <b-form-input
@@ -20,15 +24,7 @@
           id="inline-form-custom-select-sortby"
           class="mb-2 mr-sm-2 mb-sm-0"
           v-model="searchParams.sortBy"
-          :options="[
-            { text: 'Choose...', value: null },
-            { text: 'Savings', value: ['Savings', 0] },
-            { text: 'Title', value: ['Title', 0] },
-            { text: 'Recent', value: ['Recent', 0] },
-            { text: 'Highest Price', value: ['Price', 1] },
-            { text: 'Lowest Price', value: ['Price', 0] },
-            { text: 'Metacritic score', value: ['Metacritic', 0] },
-          ]"
+          :options="sortByOptions"
         ></b-form-select>
       </div>
 
@@ -64,13 +60,7 @@
           id="inline-form-custom-select-metacritic"
           class="mb-2 mr-sm-2 mb-sm-0"
           v-model="searchParams.selectedMetacriticScore"
-          :options="[
-            { text: 'Choose...', value: null },
-            { text: '>40', value: 40 },
-            { text: '>60', value: 60 },
-            { text: '>80', value: 80 },
-            { text: '>90', value: 90 },
-          ]"
+          :options="metacriticOptions"
         ></b-form-select>
       </div>
 
@@ -108,19 +98,33 @@ export default {
         onSale: true,
         sortBy: null,
       },
+      sortByOptions: [
+        { text: "Choose...", value: null },
+        { text: "Savings", value: ["Savings", 0] },
+        { text: "Title", value: ["Title", 0] },
+        { text: "Recent", value: ["Recent", 0] },
+        { text: "Highest Price", value: ["Price", 1] },
+        { text: "Lowest Price", value: ["Price", 0] },
+        { text: "Metacritic score", value: ["Metacritic", 0] },
+      ],
+      metacriticOptions: [
+        { text: "Choose...", value: null },
+        { text: ">40", value: 40 },
+        { text: ">60", value: 60 },
+        { text: ">80", value: 80 },
+        { text: ">90", value: 90 },
+      ],
     };
   },
   methods: {
-    onSubmit(event) {
-      event.preventDefault();
+    onSubmit() {
       this.addSearchParams();
       console.log(this.searchParams);
       this.$store.commit("clearDeals");
       this.$store.commit("addPreloader");
       this.$store.dispatch("fetchDeals");
     },
-    onReset(event) {
-      event.preventDefault();
+    onReset() {
       this.emptySearchParams();
     },
     isStoreActive(storeState) {
@@ -178,15 +182,21 @@ option:disabled {
   width: 218px;
   text-align: center;
 }
-.inline {
-  width: 240px;
-  height: 420px;
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.125);
-  flex-direction: column;
-  align-items: stretch;
+
+.searchForm {
+  position: sticky;
+  top: 20px;
+
+  &__contents {
+    width: 240px;
+    height: 420px;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
 .custom-select {
   width: 100%;
@@ -194,6 +204,24 @@ option:disabled {
 .selectBlock {
   &__element {
     padding-right: 1%;
+  }
+}
+@media only screen and (max-width: 1024px) {
+  .pageCounter {
+    display: none;
+  }
+  .formBlock {
+    margin-top: 10px;
+  }
+  .searchForm {
+    position: static;
+    width: 100%;
+    &__contents {
+      border: none;
+      padding: 0 20px 0 20px;
+      width: 100%;
+      height: initial;
+    }
   }
 }
 </style>

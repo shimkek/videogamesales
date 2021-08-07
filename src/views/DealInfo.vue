@@ -8,24 +8,26 @@
     </div>
 
     <div v-if="dealInfo && stores" class="deal">
-      <b-row>
-        <b-col cols="10">
-          <h1>
+      <div class="dealInfo__header">
+        <div>
+          <h1 class="dealInfo__title">
             {{ dealInfo.gameInfo.name }}
-          </h1></b-col
-        >
-        <b-col cols="2">
+          </h1>
+        </div>
+        <div class="storeLogo-container">
           <img
             v-if="stores !== null"
             :src="getStoreLogo(dealInfo.gameInfo.storeID)"
             :title="getStoreName(dealInfo.gameInfo.storeID)"
-            class="storeLogo" /></b-col
-      ></b-row>
-      <div class="price">
-        <span class="price price_discounted">Deal price: </span>
+            class="storeLogo"
+          />
+        </div>
+      </div>
+      <div class="deal-price">
+        <span class="deal-price price_discounted">Deal price: </span>
         <span
           v-if="dealInfo.gameInfo.retailPrice !== dealInfo.gameInfo.salePrice"
-          class="price price_normal"
+          class="deal-price price_normal"
         >
           {{ dealInfo.gameInfo.retailPrice + "$" }}</span
         >
@@ -228,6 +230,11 @@ export default {
 </script>
 
 <style lang="scss">
+.dealInfo__header {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 20px;
+}
 .about {
   &__cheaperDeal {
     margin: 8px 0 0 0;
@@ -265,7 +272,7 @@ export default {
   flex-direction: column;
   align-items: center;
 }
-.price {
+.deal-price {
   font-size: 20px;
   margin-bottom: 40px;
   &_normal {
@@ -282,6 +289,9 @@ export default {
 .deal {
   margin: auto;
   max-width: 840px;
+  width: 100%;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 .ratingCircle {
   display: flex;
@@ -343,5 +353,38 @@ export default {
     rgba(251, 63, 63, 1) 32%,
     rgba(219, 113, 0, 1) 83%
   );
+}
+
+@media only screen and (max-width: 768px) {
+  .dealInfo__title {
+    font-size: 2rem;
+  }
+  h3,
+  h4 {
+    font-size: 1.5rem;
+  }
+  .dealLink {
+    font-size: 25px;
+  }
+  .card-body_flex {
+    display: block;
+  }
+  .ratings {
+    margin-top: 20px;
+  }
+}
+@media only screen and (max-width: 425px) {
+  .dealInfo__title {
+    font-size: 1.8rem;
+  }
+  .rating {
+    margin-right: 20px;
+  }
+}
+@media only screen and (max-width: 365px) {
+  .ratingCircle {
+    height: 120px;
+    width: 120px;
+  }
 }
 </style>

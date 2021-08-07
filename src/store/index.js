@@ -61,10 +61,6 @@ export default new Vuex.Store({
         });
       context.commit("changeDealsLoadingStatus", false);
     },
-    async mountedFetch(context) {
-      context.dispatch("fetchStores");
-      context.dispatch("fetchDeals");
-    },
     async fetchStores(context) {
       await axios
         .get("https://www.cheapshark.com/api/1.0/stores")

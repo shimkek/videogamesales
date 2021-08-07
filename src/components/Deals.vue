@@ -1,10 +1,10 @@
 <template>
   <div class="deals" id="deals">
     <div v-if="stores">
-      <div v-for="deal in displayedDeals" :key="pageNumber + deal.dealID">
+      <div v-for="deal in fetchedDeals" :key="pageNumber + deal.dealID">
         <b-card class="custom-card">
           <b-row>
-            <b-col cols="10">
+            <b-col cols="10" class="custom-col">
               <b-card-title
                 ><router-link
                   :to="{ name: 'DealInfo', params: { dealID: deal.dealID } }"
@@ -25,38 +25,35 @@
                 <span class="price price_discounted">{{
                   deal.salePrice + "$"
                 }}</span>
-                <b-card-text class="small text-muted"
-                  >Last updated {{ formatDate(deal.lastChange) }}</b-card-text
-                >
               </div>
+              <b-card-text class="small text-muted"
+                >Last updated {{ formatDate(deal.lastChange) }}</b-card-text
+              >
             </b-col>
-            <b-col cols="2">
+            <b-col cols="2" class="storeLogo-container custom-col">
               <img
                 :src="getStoreLogo(deal.storeID)"
                 :title="getStoreName(deal.storeID)"
                 class="storeLogo"
-            /></b-col>
+              />
+            </b-col>
           </b-row>
         </b-card>
       </div>
-      <p v-if="maxPages()" class="scrollEndText">That's it!</p>
+      <p
+        v-if="areMaxPagesReached & (this.totalPageCount !== null)"
+        class="scrollEndText"
+      >
+        <b-icon icon="emoji-frown" />
+        That's it!
+      </p>
       <div class="d-flex justify-content-center mb-3" v-if="areDealsLoading">
         <b-spinner></b-spinner>
       </div>
     </div>
-    <div class="preloader" v-if="preloader" />
+    <div class="preloader" v-if="isPreloaderVisible" />
     <div
-      v-observe-visibility="
-        maxPages()
-          ? false
-          : {
-              callback: visibilityChanged,
-              intersection: {
-                threshold: 1.0,
-              },
-              throttle: 600,
-            }
-      "
+      v-observe-visibility="areMaxPagesReached ? false : observerParams"
       class="observer"
     ></div>
   </div>
@@ -68,50 +65,52 @@ export default {
   data() {
     return {
       isVisible: null,
+      observerParams: {
+        callback: this.visibilityChanged,
+        intersection: {
+          threshold: 1.0,
+        },
+        throttle: 600,
+      },
     };
   },
   async created() {
-    if (this.displayedDeals.length === 0) {
+    if (this.fetchedDeals.length === 0) {
       if (this.stores === null) {
-        this.$store.dispatch("mountedFetch");
+        this.$store.dispatch("fetchStores");
+        this.$store.dispatch("fetchDeals");
       } else {
         this.$store.dispatch("fetchDeals");
       }
     }
   },
-  components: {},
   methods: {
     formatDate(time) {
       const date = new Date(time * 1000); // create Date object
       return date.toLocaleString("ru-RU");
     },
-    getStoreLogo(inputStoreID) {
-      const object = this.stores.find((obj) => obj.storeID === inputStoreID);
-      const logoLink = object.images.logo;
+    getStoreLogo(storeID) {
+      const logoLink = this.stores[Number(storeID) - 1].images.logo;
       return `https://www.cheapshark.com/${logoLink}`;
     },
-    getStoreName(inputStoreID) {
-      const object = this.stores.find((obj) => obj.storeID === inputStoreID);
-      return object.storeName;
+    getStoreName(storeID) {
+      const storeName = this.stores[Number(storeID) - 1].storeName;
+      return storeName;
     },
     visibilityChanged(isVisible, entry) {
       this.isVisible = isVisible;
       console.log(entry);
       if (isVisible && !this.areDealsLoading) {
         console.log("load more deals");
-        // this.$store.dispatch("loadMoreDeals");
-      }
-    },
-    maxPages() {
-      if (this.pageNumber + 1 >= this.totalPageCount) {
-        return true;
-      } else {
-        return false;
+        this.$store.dispatch("loadMoreDeals");
       }
     },
   },
   computed: {
-    displayedDeals() {
+    areMaxPagesReached() {
+      return this.pageNumber + 1 >= this.totalPageCount ? true : false;
+    },
+    fetchedDeals() {
       return this.$store.state.fetchedDeals;
     },
     stores() {
@@ -129,8 +128,8 @@ export default {
     totalPageCount() {
       return this.$store.state.totalPageCount;
     },
-    preloader() {
-      return this.displayedDeals.length === 0 ? true : false;
+    isPreloaderVisible() {
+      return this.fetchedDeals.length === 0 ? true : false;
     },
   },
 };
@@ -138,8 +137,10 @@ export default {
 
 <style lang="scss">
 .preloader {
-  width: 100%;
-  height: 100vh;
+  width: 740px;
+  max-width: 100vw;
+  height: 101vh;
+  min-width: 0;
 }
 .observer {
   width: 100%;
@@ -163,10 +164,11 @@ img {
 .custom-card {
   margin-bottom: 5px;
   max-width: 740px;
-  max-height: 136px;
 }
+
 .price {
   font-size: 20px;
+  padding-bottom: 10px;
   &_normal {
     color: red;
     background-image: linear-gradient(
@@ -178,14 +180,45 @@ img {
     margin-right: 5px;
   }
 }
+.storeLogo-container {
+  display: flex;
+  justify-items: center;
+  flex-direction: row;
+  align-content: flex-end;
+  align-items: center;
+  justify-content: flex-end;
+}
 .storeLogo {
+  width: inherit;
   max-height: 64px;
   max-width: 64px;
-  float: right;
+  object-fit: contain;
 }
 .scrollEndText {
   font-size: 25px;
   text-align: center;
   color: var(--secondary);
+}
+@media only screen and (max-width: 768px) {
+  .price {
+    padding-bottom: 5px;
+  }
+}
+@media only screen and (max-width: 425px) {
+  .title {
+    font-size: 1.3rem;
+  }
+  .custom-card {
+    margin-bottom: 8px;
+  }
+}
+@media only screen and (max-width: 576px) {
+  .title {
+    font-size: 1.1rem;
+  }
+  .custom-col {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+  }
 }
 </style>
