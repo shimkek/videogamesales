@@ -2,11 +2,14 @@
   <div>
     <div
       class="d-flex justify-content-center mb-3"
-      v-if="dealInfo === undefined || stores === null"
+      v-if="
+        this.dealInfo === null ||
+        this.stores === null ||
+        isDealInfoLoading === true
+      "
     >
       <b-spinner></b-spinner>
     </div>
-    <div v-show="isPreloaderVisible" class="preloader" />
     <div v-if="dealInfo && stores" class="deal">
       <div class="dealInfo__header">
         <div>
@@ -138,7 +141,7 @@
         :appID="dealInfo.gameInfo.steamAppID"
       />
 
-      <div class="otherDeals">
+      <div class="otherDeals" v-if="!isDealInfoLoading">
         <h3>You might also be interested</h3>
         <Deals />
       </div>
@@ -154,8 +157,9 @@ export default {
   data() {
     return {
       fetchLink: "https://www.cheapshark.com/api/1.0/deals?id=",
-      dealInfo: undefined,
+      dealInfo: null,
       redirectedFromAnotherDeal: false,
+      isDealInfoLoading: true,
     };
   },
   components: {
@@ -189,7 +193,8 @@ export default {
       return object.storeName;
     },
     getDealInfo() {
-      this.dealInfo = undefined;
+      this.dealInfo = null;
+      this.isDealInfoLoading = true;
       //if the page was reloaded and stores object emptied
       if (this.stores === null) {
         this.$store.dispatch("fetchStores");
@@ -198,6 +203,7 @@ export default {
         .get(this.fetchLink + this.dealID)
         .then((dealInfo) => {
           console.log(dealInfo.data);
+          this.isDealInfoLoading = false;
           this.dealInfo = dealInfo.data;
         })
         .catch(function (error) {
@@ -217,9 +223,6 @@ export default {
     },
     dealID() {
       return this.$route.params.dealID;
-    },
-    isPreloaderVisible() {
-      return this.dealInfo === undefined ? true : false;
     },
   },
   watch: {

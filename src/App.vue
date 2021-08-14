@@ -18,7 +18,9 @@
 </template>
 <style lang="scss">
 @import "./styles/normalize.scss";
-
+html {
+  overflow-y: scroll;
+}
 .header {
   width: 100%;
   height: 60px;
