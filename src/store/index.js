@@ -65,13 +65,21 @@ export default new Vuex.Store({
       await axios
         .get("https://www.cheapshark.com/api/1.0/stores")
         .then((response) => {
-          console.log(response.data);
-          context.commit("addStores", response.data);
+          const storesObject = response.data.reduce(function (object, store) {
+            object[store.storeID] = store;
+            return object;
+          }, {});
+          context.commit("addStores", storesObject);
         });
     },
     async loadMoreDeals(context) {
       context.commit("nextPage");
       context.dispatch("fetchDeals");
+    },
+  },
+  getters: {
+    storeById: (state, storeID) => {
+      return state.stores[storeID];
     },
   },
 });

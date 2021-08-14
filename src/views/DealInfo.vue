@@ -183,14 +183,11 @@ export default {
       const date = new Date(time * 1000); // create Date object
       return date.toLocaleDateString("ru-RU", {});
     },
-    getStoreLogo(inputStoreID) {
-      const object = this.stores.find((obj) => obj.storeID === inputStoreID);
-      const logoLink = object.images.logo;
-      return `https://www.cheapshark.com/${logoLink}`;
+    getStoreLogo(storeId) {
+      return `https://www.cheapshark.com/${this.$store.state.stores[storeId].images.logo}`;
     },
-    getStoreName(inputStoreID) {
-      const object = this.stores.find((obj) => obj.storeID === inputStoreID);
-      return object.storeName;
+    getStoreName(storeId) {
+      return this.$store.state.stores[storeId].storeName;
     },
     getDealInfo() {
       this.dealInfo = null;

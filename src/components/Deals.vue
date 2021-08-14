@@ -89,13 +89,11 @@ export default {
       const date = new Date(time * 1000); // create Date object
       return date.toLocaleString("ru-RU");
     },
-    getStoreLogo(storeID) {
-      const logoLink = this.stores[Number(storeID) - 1].images.logo;
-      return `https://www.cheapshark.com/${logoLink}`;
+    getStoreLogo(storeId) {
+      return `https://www.cheapshark.com/${this.$store.state.stores[storeId].images.logo}`;
     },
-    getStoreName(storeID) {
-      const storeName = this.stores[Number(storeID) - 1].storeName;
-      return storeName;
+    getStoreName(storeId) {
+      return this.$store.state.stores[storeId].storeName;
     },
     visibilityChanged(isVisible, entry) {
       this.isVisible = isVisible;
@@ -163,7 +161,7 @@ img {
 }
 .custom-card {
   margin-bottom: 5px;
-  max-width: 740px;
+  max-width: 100%;
 }
 
 .price {

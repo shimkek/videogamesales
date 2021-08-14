@@ -1,7 +1,7 @@
 <template>
   <div class="page-container d-flex justify-content-center">
     <div v-show="areDealsShown" class="deals-container">
-      <Deals class="" />
+      <Deals />
     </div>
 
     <div v-show="isSearchFormOpen" class="searchForm-container">
@@ -53,6 +53,7 @@ export default {
 
 .deals-container {
   margin-right: 10px;
+  width: 740px;
 }
 
 .searchForm-container {
