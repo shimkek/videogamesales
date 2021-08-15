@@ -64,7 +64,6 @@ export default {
   name: "Deals",
   data() {
     return {
-      isVisible: null,
       observerParams: {
         callback: this.visibilityChanged,
         intersection: {
@@ -96,7 +95,6 @@ export default {
       return this.$store.state.stores[storeId].storeName;
     },
     visibilityChanged(isVisible, entry) {
-      this.isVisible = isVisible;
       console.log(entry);
       if (isVisible && !this.areDealsLoading) {
         console.log("load more deals");

@@ -49,6 +49,8 @@ export default {
 <style lang="scss">
 .page-container {
   position: relative;
+  margin-top: 40px;
+  padding-bottom: 200px;
 }
 
 .deals-container {

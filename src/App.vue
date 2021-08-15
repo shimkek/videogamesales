@@ -9,6 +9,18 @@
           <router-link to="/" class="header__text">videogamesales</router-link>
         </div>
       </div>
+      <div class="navbar">
+        <div class="nav-item">
+          <router-link class="nav-link pr-3" to="/auth/login"
+            >Sign In</router-link
+          >
+        </div>
+        <div class="nav-item">
+          <router-link class="btn btn-outline-primary" to="/auth/signup"
+            >Sign Up</router-link
+          >
+        </div>
+      </div>
     </header>
 
     <div class="body">
@@ -20,16 +32,24 @@
 @import "./styles/normalize.scss";
 html {
   overflow-y: scroll;
+  min-width: 100vh;
+}
+body {
+  min-width: 100vh;
 }
 .header {
   width: 100%;
-  height: 60px;
-  background-color: rgb(243, 243, 243);
-  box-shadow: 0 0.1rem 0.1rem rgba(0, 0, 0, 0.2);
+  height: 70px;
+  background-color: #fff;
+  box-shadow: 0 0.1rem 1rem rgb(0 0 0 / 10%);
   display: flex;
   justify-content: center;
+  align-items: center;
+  z-index: 5;
   &__contents {
     display: flex;
+    align-items: center;
+    background-color: white;
   }
   &__text-container {
     height: inherit;
@@ -68,8 +88,40 @@ html {
 }
 .body {
   margin: auto;
+}
+.authForm {
+  background-color: #ffffff;
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 40px;
-  padding-bottom: 200px;
+  padding: 20px 40px 50px 40px;
+  border-radius: 20px;
+  height: fit-content;
+}
+.authContainer {
+  display: flex;
+  font-weight: 400;
+  width: 100%;
+  height: 90vh;
+  background-image: url("https://wallpaperaccess.com/full/2488356.jpg");
+  background-clip: content-box;
+}
+
+label {
+  font-weight: 500;
+}
+
+.forgot-password,
+.forgot-password a {
+  text-align: right;
+  font-size: 13px;
+  padding-top: 10px;
+  color: #7a7a7a;
+  margin: 0;
+}
+
+.forgot-password a {
+  color: #2554ff;
 }
 @media only screen and (max-width: 375px) {
   .header__text {
