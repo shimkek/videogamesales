@@ -5,12 +5,12 @@
         <h3>Sign Up</h3>
 
         <div class="form-group">
-          <label>Email address</label>
+          <label class="label_bold">Email address</label>
           <input type="email" class="form-control form-control-lg" />
         </div>
 
         <div class="form-group">
-          <label>Password</label>
+          <label class="label_bold">Password</label>
           <input type="password" class="form-control form-control-lg" />
         </div>
 

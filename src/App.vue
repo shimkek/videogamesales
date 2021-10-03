@@ -2,28 +2,32 @@
   <div id="app">
     <header class="header">
       <div class="header__contents">
-        <div class="header__logo">
-          <img class="header__logo__img" src="./assets/logo.png" />
+        <div class="header__brand-symbols">
+          <div class="header__logo">
+            <img class="header__logo__img" src="./assets/logo.png" />
+          </div>
+          <div class="header__text-container">
+            <router-link to="/" class="header__text"
+              >videogamesales</router-link
+            >
+          </div>
         </div>
-        <div class="header__text-container">
-          <router-link to="/" class="header__text">videogamesales</router-link>
-        </div>
-      </div>
-      <div class="navbar">
-        <div class="nav-item">
-          <router-link class="nav-link pr-3" to="/auth/login"
-            >Sign In</router-link
-          >
-        </div>
-        <div class="nav-item">
-          <router-link class="btn btn-outline-primary" to="/auth/signup"
-            >Sign Up</router-link
-          >
+        <div class="navbar navbar_align-right">
+          <div class="nav-item">
+            <router-link class="nav-link pr-3" to="/auth/login"
+              >Sign In</router-link
+            >
+          </div>
+          <div class="nav-item">
+            <router-link class="btn btn-outline-primary" to="/auth/signup"
+              >Sign Up</router-link
+            >
+          </div>
         </div>
       </div>
     </header>
 
-    <div class="body">
+    <div class="body-contents">
       <router-view />
     </div>
   </div>
@@ -32,24 +36,38 @@
 @import "./styles/normalize.scss";
 html {
   overflow-y: scroll;
-  min-width: 100vh;
 }
-body {
-  min-width: 100vh;
+html,
+body,
+#app {
+  height: 100%;
+}
+#app {
+  display: flex;
+  flex-direction: column;
+}
+.header__brand-symbols {
+  display: flex;
+}
+.body-contents {
+  height: 100%;
 }
 .header {
   width: 100%;
   height: 70px;
   background-color: #fff;
-  box-shadow: 0 0.1rem 1rem rgb(0 0 0 / 10%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: nowrap;
   z-index: 5;
   &__contents {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     background-color: white;
+    width: 980px;
   }
   &__text-container {
     height: inherit;
@@ -86,14 +104,11 @@ body {
 .header a:hover {
   text-decoration: none;
 }
-.body {
-  margin: auto;
-}
 .authForm {
   background-color: #ffffff;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 40px;
+  margin-top: 10%;
   padding: 20px 40px 50px 40px;
   border-radius: 20px;
   height: fit-content;
@@ -102,12 +117,11 @@ body {
   display: flex;
   font-weight: 400;
   width: 100%;
-  height: 90vh;
-  background-image: url("https://wallpaperaccess.com/full/2488356.jpg");
-  background-clip: content-box;
+  background: url(../public/auth-background.png) no-repeat center center fixed;
+  height: 100%;
 }
 
-label {
+.label_bold {
   font-weight: 500;
 }
 
@@ -129,8 +143,13 @@ label {
   }
 }
 @media only screen and (max-width: 768px) {
-  .body {
-    margin-top: 3%;
+  .page-container {
+    margin-top: 20px !important;
+  }
+}
+@media only screen and (max-width: 1024px) {
+  .header__contents {
+    width: 740px;
   }
 }
 </style>
