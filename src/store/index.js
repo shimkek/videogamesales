@@ -2,7 +2,6 @@ import Vue from "vue";
 import Vuex from "vuex";
 const axios = require("axios");
 Vue.use(Vuex);
-
 export default new Vuex.Store({
   state: {
     fetchedDeals: [],
@@ -12,6 +11,10 @@ export default new Vuex.Store({
         pageNumber: 0,
         pageSize: 50,
       },
+    },
+    user: {
+      loggedIn: false,
+      data: null,
     },
     stores: null,
     areDealsLoading: true,
@@ -39,6 +42,12 @@ export default new Vuex.Store({
     },
     clearDeals(state) {
       state.fetchedDeals = [];
+    },
+    setLoggedIn(state, value) {
+      state.user.loggedIn = value;
+    },
+    setUser(state, data) {
+      state.user.data = data;
     },
   },
   actions: {
@@ -76,10 +85,20 @@ export default new Vuex.Store({
       context.commit("nextPage");
       context.dispatch("fetchDeals");
     },
+    fetchUser(context, user) {
+      context.commit("setLoggedIn", user !== null);
+      if (user) {
+        context.commit("setUser", {
+          email: user.email,
+        });
+      } else {
+        context.commit("setUser", null);
+      }
+    },
   },
   getters: {
-    storeById: (state, storeID) => {
-      return state.stores[storeID];
+    user(state) {
+      return state.user;
     },
   },
 });

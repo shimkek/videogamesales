@@ -12,16 +12,23 @@
             >
           </div>
         </div>
+
         <div class="navbar navbar_align-right">
-          <div class="nav-item">
-            <router-link class="nav-link pr-3" to="/auth/login"
-              >Sign In</router-link
-            >
-          </div>
-          <div class="nav-item">
-            <router-link class="btn btn-outline-primary" to="/auth/signup"
+          <div v-if="!user.loggedIn" class="nav-item">
+            <router-link class="nav-link pr-3" to="/auth/signup"
               >Sign Up</router-link
             >
+          </div>
+          <div v-if="!user.loggedIn" class="nav-item">
+            <router-link class="btn btn-outline-primary" to="/auth/login"
+              >Log In</router-link
+            >
+          </div>
+          <div v-if="user.loggedIn" class="nav-item">
+            <router-link to="/user">My page</router-link>
+          </div>
+          <div v-if="user.loggedIn" class="nav-item">
+            <b-button @click.prevent="signOut">Log Out</b-button>
           </div>
         </div>
       </div>
@@ -32,6 +39,34 @@
     </div>
   </div>
 </template>
+
+<script>
+import firebase from "firebase";
+import { mapGetters } from "vuex";
+export default {
+  methods: {
+    signOut() {
+      console.log("Signing out...");
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          if (this.$route.name !== "Home") {
+            this.$router.replace({
+              name: "Home",
+            });
+          }
+        });
+    },
+  },
+  computed: {
+    ...mapGetters({
+      user: "user",
+    }),
+  },
+};
+</script>
+
 <style lang="scss">
 @import "./styles/normalize.scss";
 html {
