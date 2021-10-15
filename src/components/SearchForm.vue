@@ -5,8 +5,8 @@
       @submit.prevent="onSubmit"
       @reset.prevent="onReset"
     >
-      <div>
-        <label> Name</label>
+      <div class="mb-2">
+        <label class="mb-1"> Name</label>
         <b-form-input
           v-model="searchParams.selectedDealName"
           placeholder='"Mass Effect 2"'
@@ -14,9 +14,9 @@
         ></b-form-input>
       </div>
 
-      <div class="selectBlock">
+      <div class="selectBlock mb-2">
         <label
-          class="mr-sm-2 formBlock__element"
+          class="mb-1 formBlock__element"
           for="inline-form-custom-select-sortby"
           >Sort by</label
         >
@@ -28,9 +28,9 @@
         ></b-form-select>
       </div>
 
-      <div class="selectBlock">
+      <div class="selectBlock mb-2">
         <label
-          class="mr-sm-2 formBlock__element"
+          class="mb-1 formBlock__element"
           for="inline-form-custom-select-store"
           >Store</label
         >
@@ -50,9 +50,9 @@
         </b-form-select>
       </div>
 
-      <div class="selectBlock">
+      <div class="selectBlock mb-2">
         <label
-          class="mr-sm-2 formBlock__element"
+          class="mb-1 formBlock__element"
           for="inline-form-custom-select-metacritic"
           >Metacritic Score</label
         >
@@ -64,7 +64,7 @@
         ></b-form-select>
       </div>
 
-      <div>
+      <div class="mb-3">
         <b-form-checkbox
           v-model="searchParams.onSale"
           name="check-button"
@@ -74,11 +74,11 @@
         </b-form-checkbox>
       </div>
 
+      <b-button variant="dark" class="formBlock mb-1" type="submit"
+        >Search <b-icon icon="search"></b-icon
+      ></b-button>
       <b-button variant="outline-danger" class="formBlock" type="reset"
         >Clear <b-icon icon="x-octagon"></b-icon
-      ></b-button>
-      <b-button variant="outline-dark" class="formBlock" type="submit"
-        >Search <b-icon icon="search"></b-icon
       ></b-button>
       <p v-if="totalPageCount" class="pageCounter">
         {{ pageNumber + 1 }} out of {{ totalPageCount }}
@@ -188,11 +188,10 @@ option:disabled {
   top: 20px;
 
   &__contents {
-    width: 240px;
-    height: 420px;
+    width: 260px;
     display: flex;
     justify-content: space-between;
-    padding: 10px;
+    padding: 12px;
     border: 1px solid rgba(0, 0, 0, 0.125);
     flex-direction: column;
     align-items: stretch;

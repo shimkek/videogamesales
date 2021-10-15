@@ -1,15 +1,13 @@
 <template>
-  <div>
-    <div
-      class="d-flex justify-content-center mb-3"
+  <div class="container py-4">
+    <Loader
       v-if="
         this.dealInfo === null ||
         this.stores === null ||
         isDealInfoLoading === true
       "
-    >
-      <b-spinner></b-spinner>
-    </div>
+    />
+
     <div v-if="dealInfo && stores" class="deal">
       <div class="dealInfo__header">
         <div>
@@ -153,6 +151,8 @@
 const axios = require("axios");
 import Deals from "../components/Deals.vue";
 import SteamAppNews from "../components/SteamAppNews.vue";
+import Loader from "../components/Loader.vue";
+
 export default {
   data() {
     return {
@@ -165,6 +165,7 @@ export default {
   components: {
     Deals,
     SteamAppNews,
+    Loader,
   },
   methods: {
     ratingColor(rating) {
@@ -290,10 +291,7 @@ export default {
 }
 .deal {
   margin: auto;
-  max-width: 840px;
   width: 100%;
-  padding-left: 5px;
-  padding-right: 5px;
 }
 .ratingCircle {
   display: flex;
