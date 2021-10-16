@@ -2,7 +2,7 @@
   <div class="deals" id="deals">
     <div v-if="stores">
       <div v-for="deal in fetchedDeals" :key="pageNumber + deal.dealID">
-        <b-card class="custom-card">
+        <b-card class="custom-card shadow-sm">
           <b-row>
             <b-col cols="10" class="custom-col">
               <b-card-title
@@ -53,7 +53,7 @@
         That's it!
       </p>
       <div class="d-flex justify-content-center mb-3" v-if="areDealsLoading">
-        <b-spinner></b-spinner>
+        <Loader />
       </div>
     </div>
     <div class="preloader" v-if="isPreloaderVisible" />
@@ -65,7 +65,12 @@
 </template>
 
 <script>
+import Loader from "../components/Loader.vue";
+
 export default {
+  components: {
+    Loader,
+  },
   name: "Deals",
   data() {
     return {
@@ -163,7 +168,7 @@ img {
   margin: 0;
 }
 .custom-card {
-  margin-bottom: 5px;
+  margin-bottom: 12px;
   max-width: 100%;
 }
 

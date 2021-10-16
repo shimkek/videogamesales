@@ -1,39 +1,37 @@
 <template>
   <div id="app">
     <header class="header">
-      <div class="header__contents">
+      <div class="header__contents container">
         <div class="header__brand-symbols">
           <div class="header__logo">
-            <img class="header__logo__img" src="./assets/logo128.png" />
+
+            <img
+              class="header__logo__img"
+              src="https://emojipedia-us.s3.amazonaws.com/source/skype/289/alien-monster_1f47e.png"
+            />
+
           </div>
           <div class="header__text-container">
-            <router-link to="/" class="header__text"
-              >videogamesales</router-link
-            >
+            <router-link to="/" class="header__text">Gamdilz</router-link>
           </div>
         </div>
 
-        <div class="navbar navbar_align-right">
-          <div v-if="!user.loggedIn" class="header__button">
-            <router-link class="header__button__text" to="/auth/signup"
-              >Sign Up</router-link
-            >
-          </div>
-          <div v-if="!user.loggedIn" class="header__button">
-            <router-link class="header__button__text" to="/auth/login"
-              >Log In</router-link
-            >
-          </div>
-          <div v-if="user.loggedIn">
-            <router-link class="header__button__text" to="/user/liked"
-              >Liked</router-link
-            >
-          </div>
-          <div v-if="user.loggedIn" class="header__button">
-            <b-button @click.prevent="signOut" class="header__button__text"
-              >Log Out</b-button
-            >
-          </div>
+        <div class="d-flex align-items-center">
+          <template v-if="user.loggedIn">
+            <router-link class="d-inline-block mr-3" to="/user">
+              My page
+            </router-link>
+            <b-button @click.prevent="signOut">Log Out</b-button>
+          </template>
+
+          <template v-else>
+            <router-link class="d-inline-block mr-3" to="/auth/signup">
+              Sign Up
+            </router-link>
+            <router-link class="btn btn-outline-primary" to="/auth/login">
+              Log In
+            </router-link>
+          </template>
         </div>
       </div>
     </header>
@@ -72,7 +70,10 @@ export default {
 </script>
 
 <style lang="scss">
+@import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap");
+
 @import "./styles/normalize.scss";
+
 html {
   overflow-y: scroll;
 }
@@ -87,21 +88,20 @@ body,
 }
 .header__brand-symbols {
   display: flex;
+  align-items: center;
 }
 .body-contents {
   height: 100%;
 }
 .header {
-  max-width: 990px;
-  margin-left: auto;
-  margin-right: auto;
-  height: 70px;
+  width: 100%;
   background-color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: nowrap;
   z-index: 5;
+/*
   &__button {
     padding: 5px 15px 5px 15px;
     margin-left: 15px;
@@ -113,38 +113,30 @@ body,
       color: black;
     }
   }
+*/
   &__contents {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: white;
-  }
-  &__text-container {
-    height: inherit;
-    padding: 0 10px 0 10px;
-    display: flex;
-    align-items: center;
+    padding: 6px 0px;
   }
 
   &__text {
-    color: #75c4b1;
-    font-size: 2rem;
+    font-family: "Permanent Marker", cursive;
+    color: #8b5cf6 !important;
+    font-size: 30px;
     font-weight: 700;
     text-decoration: none;
   }
-  &__text:hover {
-    color: #599789;
-  }
+
   &__logo {
-    max-height: 60px;
-    width: 60px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    margin-right: 10px;
 
     &__img {
-      object-fit: contain;
-      height: 80%;
+      width: 32px;
+      transform: rotate(-10deg);
     }
   }
 }
@@ -190,7 +182,7 @@ body,
 }
 @media only screen and (min-width: 1024px) {
   .header__contents {
-    width: 990px;
+    // width: 740px;
   }
 }
 </style>

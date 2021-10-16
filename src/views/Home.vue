@@ -1,5 +1,5 @@
 <template>
-  <div class="page-container d-flex justify-content-center">
+  <div class="container page-container d-flex justify-content-center">
     <div v-show="areDealsShown" class="deals-container">
       <Deals />
     </div>
@@ -49,13 +49,13 @@ export default {
 <style lang="scss">
 .page-container {
   position: relative;
-  margin-top: 40px;
+  margin-top: 30px;
   padding-bottom: 200px;
 }
 
 .deals-container {
-  margin-right: 10px;
-  width: 740px;
+  margin-right: 20px;
+  width: 100%;
 }
 
 .searchForm-container {
