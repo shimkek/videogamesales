@@ -42,17 +42,6 @@ const routes = [
       ),
   },
   {
-    path: "/auth/forgotpassword",
-    name: "AuthenticationForgotPassword",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(
-        /* webpackChunkName: "AuthenticationForgotPassword" */ "../views/AuthentificationForgotPassword.vue"
-      ),
-  },
-  {
     path: "/user/liked",
     name: "LikedDeals",
     // route level code-splitting

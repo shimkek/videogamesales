@@ -7,11 +7,12 @@
     >
       <div class="mb-2">
         <label class="mb-1"> Name</label>
-        <b-form-input
+        <input
           v-model="searchParams.selectedDealName"
           placeholder='"Mass Effect 2"'
           type="text"
-        ></b-form-input>
+          class="custom-select"
+        />
       </div>
 
       <div class="selectBlock mb-2">
@@ -74,12 +75,12 @@
         </b-form-checkbox>
       </div>
 
-      <b-button variant="dark" class="formBlock mb-1" type="submit"
-        >Search <b-icon icon="search"></b-icon
-      ></b-button>
-      <b-button variant="outline-danger" class="formBlock" type="reset"
-        >Clear <b-icon icon="x-octagon"></b-icon
-      ></b-button>
+      <button class="formBlock searchButton" type="submit">
+        Search <b-icon icon="search"></b-icon>
+      </button>
+      <button class="formBlock resetButton" type="reset">
+        Clear <b-icon icon="x-octagon"></b-icon>
+      </button>
       <p v-if="totalPageCount" class="pageCounter">
         {{ pageNumber + 1 }} out of {{ totalPageCount }}
       </p>
@@ -170,11 +171,43 @@ export default {
 </script>
 
 <style lang="scss">
+.searchButton {
+  display: inline-block;
+  color: #fff;
+  background-color: #343a40;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  padding: 0.375rem 0.75rem;
+  transition: none;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+.searchButton:hover {
+  color: #fff;
+  background-color: #23272b;
+  border-color: #1d2124;
+}
+.resetButton {
+  display: inline-block;
+  background-color: transparent;
+  color: #dc3545;
+  border: 1px solid #a72935;
+  border-radius: 0.25rem;
+  padding: 0.375rem 0.75rem;
+  transition: none;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+.resetButton:hover {
+  background-color: #7a2029;
+  border-color: #7a2029;
+  color: #ffffff;
+}
 option {
-  color: black;
+  color: rgb(184, 184, 184);
 }
 option:disabled {
-  color: rgb(170, 170, 170);
+  color: rgb(110, 110, 110);
 }
 .pageCounter {
   position: absolute;
@@ -186,6 +219,8 @@ option:disabled {
 .searchForm {
   position: sticky;
   top: 20px;
+  background-color: #262837;
+  color: #828191;
 
   &__contents {
     width: 260px;
@@ -196,9 +231,15 @@ option:disabled {
     flex-direction: column;
     align-items: stretch;
   }
+  &__contents label {
+    color: rgb(155, 154, 172);
+  }
 }
 .custom-select {
   width: 100%;
+  background-color: #363342 !important;
+  border-color: #363342 !important;
+  color: #828191 !important;
 }
 .selectBlock {
   &__element {

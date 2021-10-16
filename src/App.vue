@@ -4,31 +4,32 @@
       <div class="header__contents container">
         <div class="header__brand-symbols">
           <div class="header__logo">
-
             <img
               class="header__logo__img"
               src="https://emojipedia-us.s3.amazonaws.com/source/skype/289/alien-monster_1f47e.png"
             />
-
           </div>
           <div class="header__text-container">
-            <router-link to="/" class="header__text">Gamdilz</router-link>
+            <router-link to="/" class="header__text">GameDeal$</router-link>
           </div>
         </div>
 
         <div class="d-flex align-items-center">
           <template v-if="user.loggedIn">
-            <router-link class="d-inline-block mr-3" to="/user">
-              My page
+            <router-link class="header__liked" to="/user/liked">
+              <span class="header__liked-heart">♥</span>
+              <p class="header__liked-text">Liked</p>
             </router-link>
-            <b-button @click.prevent="signOut">Log Out</b-button>
+            <button @click.prevent="signOut" class="header__button">
+              Log Out
+            </button>
           </template>
 
           <template v-else>
-            <router-link class="d-inline-block mr-3" to="/auth/signup">
+            <router-link class="header__button" to="/auth/signup">
               Sign Up
             </router-link>
-            <router-link class="btn btn-outline-primary" to="/auth/login">
+            <router-link class="header__button" to="/auth/login">
               Log In
             </router-link>
           </template>
@@ -71,7 +72,7 @@ export default {
 
 <style lang="scss">
 @import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap");
-
+@import "./styles/variables.scss";
 @import "./styles/normalize.scss";
 
 html {
@@ -81,6 +82,7 @@ html,
 body,
 #app {
   height: 100%;
+  background-color: $bg-color;
 }
 #app {
   display: flex;
@@ -95,31 +97,31 @@ body,
 }
 .header {
   width: 100%;
-  background-color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: nowrap;
   z-index: 5;
-/*
+
   &__button {
     padding: 5px 15px 5px 15px;
     margin-left: 15px;
-    border: 2px solid #75c4b1;
+    border: 2px solid #492a91;
     border-radius: 15px;
-    &__text {
-      font-size: 1rem;
-      font-weight: 500;
-      color: black;
-    }
+    font-size: 1rem;
+    font-weight: 500;
+    background-color: transparent;
+    color: #dadada;
   }
-*/
+  &__button:hover {
+    color: gray;
+  }
+
   &__contents {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: white;
     padding: 6px 0px;
   }
 
@@ -139,12 +141,34 @@ body,
       transform: rotate(-10deg);
     }
   }
+
+  &__liked {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    color: rgb(199, 0, 93);
+    &-text {
+      padding-left: 5px;
+      margin: 0 10px 0 0;
+      font-weight: 500;
+    }
+    &-heart {
+      font-size: 24px;
+    }
+  }
+  &__liked:hover {
+    color: rgb(160, 2, 76);
+  }
 }
 .header a:hover {
   text-decoration: none;
 }
 .authForm {
-  background-color: #ffffff;
+  color: #ffffff;
+  background-color: #262837;
   margin-left: auto;
   margin-right: auto;
   margin-top: 10%;
@@ -164,18 +188,6 @@ body,
   font-weight: 500;
 }
 
-.forgot-password,
-.forgot-password a {
-  text-align: right;
-  font-size: 13px;
-  padding-top: 10px;
-  color: #7a7a7a;
-  margin: 0;
-}
-
-.forgot-password a {
-  color: #2554ff;
-}
 @media only screen and (max-width: 375px) {
 }
 @media only screen and (max-width: 768px) {

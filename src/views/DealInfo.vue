@@ -99,7 +99,7 @@
                 </div>
                 <p class="ratingCircle__description">
                   <img
-                    src="https://alternative.me/media/256/steam-icon-zkaj1ullopzk7u8a-c.png"
+                    src="https://www.freeiconspng.com/uploads/steam-icon-19.png"
                     class="ratingCircle__description-icon"
                   />Steam rating
                 </p>
@@ -239,6 +239,9 @@ export default {
   justify-content: space-between;
   padding-right: 20px;
 }
+.dealInfo__title {
+  color: #fff;
+}
 .about {
   &__cheaperDeal {
     margin: 8px 0 0 0;
@@ -246,13 +249,13 @@ export default {
 }
 .about-card {
   border-top-left-radius: 0;
+  background-color: #262837;
 }
 .otherDeals {
   margin-top: 50px;
 }
 .dealLink {
-  background: #20c997;
-  color: black;
+  background: #7a20b6;
   font-size: 30px;
   padding: 10px 10px 3px 10px;
   border: 1px solid rgba(0, 0, 0, 0.125);
@@ -292,6 +295,7 @@ export default {
 .deal {
   margin: auto;
   width: 100%;
+  color: #fff;
 }
 .ratingCircle {
   display: flex;

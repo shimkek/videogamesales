@@ -25,10 +25,6 @@
         <button type="submit" class="btn btn-dark btn-lg btn-block">
           Sign In
         </button>
-
-        <p class="forgot-password text-right">
-          <router-link to="/auth/forgotpassword">Forgot password ?</router-link>
-        </p>
       </form>
       <div v-if="error" class="alert alert-danger">{{ error }}</div>
     </div>
@@ -54,7 +50,7 @@ export default {
         .auth()
         .signInWithEmailAndPassword(this.form.email, this.form.password)
         .then(() => {
-          this.$router.replace({ name: "UserPage" });
+          this.$router.replace({ name: "LikedDeals" });
         })
         .catch((err) => {
           this.error = err.message;
