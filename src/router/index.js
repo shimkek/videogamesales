@@ -53,13 +53,13 @@ const routes = [
       ),
   },
   {
-    path: "/user",
-    name: "UserPage",
+    path: "/user/liked",
+    name: "LikedDeals",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "UserPage" */ "../views/UserPage.vue"),
+      import(/* webpackChunkName: "LikedDeals" */ "../views/LikedDeals.vue"),
     meta: {
       authRequired: true,
     },

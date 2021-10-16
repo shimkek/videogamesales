@@ -4,7 +4,7 @@
       <div class="header__contents">
         <div class="header__brand-symbols">
           <div class="header__logo">
-            <img class="header__logo__img" src="./assets/logo.png" />
+            <img class="header__logo__img" src="./assets/logo128.png" />
           </div>
           <div class="header__text-container">
             <router-link to="/" class="header__text"
@@ -14,21 +14,25 @@
         </div>
 
         <div class="navbar navbar_align-right">
-          <div v-if="!user.loggedIn" class="nav-item">
-            <router-link class="nav-link pr-3" to="/auth/signup"
+          <div v-if="!user.loggedIn" class="header__button">
+            <router-link class="header__button__text" to="/auth/signup"
               >Sign Up</router-link
             >
           </div>
-          <div v-if="!user.loggedIn" class="nav-item">
-            <router-link class="btn btn-outline-primary" to="/auth/login"
+          <div v-if="!user.loggedIn" class="header__button">
+            <router-link class="header__button__text" to="/auth/login"
               >Log In</router-link
             >
           </div>
-          <div v-if="user.loggedIn" class="nav-item">
-            <router-link to="/user">My page</router-link>
+          <div v-if="user.loggedIn">
+            <router-link class="header__button__text" to="/user/liked"
+              >Liked</router-link
+            >
           </div>
-          <div v-if="user.loggedIn" class="nav-item">
-            <b-button @click.prevent="signOut">Log Out</b-button>
+          <div v-if="user.loggedIn" class="header__button">
+            <b-button @click.prevent="signOut" class="header__button__text"
+              >Log Out</b-button
+            >
           </div>
         </div>
       </div>
@@ -88,43 +92,51 @@ body,
   height: 100%;
 }
 .header {
-  width: 100%;
+  max-width: 990px;
+  margin-left: auto;
+  margin-right: auto;
   height: 70px;
   background-color: #fff;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: nowrap;
   z-index: 5;
+  &__button {
+    padding: 5px 15px 5px 15px;
+    margin-left: 15px;
+    border: 2px solid #75c4b1;
+    border-radius: 15px;
+    &__text {
+      font-size: 1rem;
+      font-weight: 500;
+      color: black;
+    }
+  }
   &__contents {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: white;
-    width: 980px;
   }
   &__text-container {
     height: inherit;
     padding: 0 10px 0 10px;
-    max-width: 80%;
     display: flex;
     align-items: center;
   }
 
   &__text {
-    color: rgb(255, 70, 85);
+    color: #75c4b1;
     font-size: 2rem;
     font-weight: 700;
-    font-family: "  Courier New", Courier, monospace;
     text-decoration: none;
   }
   &__text:hover {
-    color: rgb(207, 58, 71);
+    color: #599789;
   }
   &__logo {
     max-height: 60px;
-    max-width: 20%;
     width: 60px;
     display: flex;
     flex-direction: column;
@@ -173,18 +185,12 @@ body,
   color: #2554ff;
 }
 @media only screen and (max-width: 375px) {
-  .header__text {
-    font-size: 1.5rem;
-  }
 }
 @media only screen and (max-width: 768px) {
-  .page-container {
-    margin-top: 20px !important;
-  }
 }
-@media only screen and (max-width: 1024px) {
+@media only screen and (min-width: 1024px) {
   .header__contents {
-    width: 740px;
+    width: 990px;
   }
 }
 </style>

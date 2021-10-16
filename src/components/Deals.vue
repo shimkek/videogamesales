@@ -14,8 +14,13 @@
                   v-if="deal.normalPrice !== deal.salePrice"
                   class="discountPercentage"
                   >{{ "-" + Math.trunc(deal.savings) + "%" }}</span
-                ></b-card-title
-              >
+                ><b-icon
+                  icon="heart"
+                  class="rounded-circle "
+                  animation="spin-reverse-pulse"
+                  style="color: #7952b3"
+                ></b-icon
+              ></b-card-title>
               <div class="price">
                 <span
                   v-if="deal.normalPrice !== deal.salePrice"
