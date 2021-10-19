@@ -171,21 +171,18 @@ export default {
 </script>
 
 <style lang="scss">
-.searchButton {
-  display: inline-block;
-  color: #fff;
-  background-color: #343a40;
-  border: 1px solid transparent;
-  border-radius: 0.25rem;
-  padding: 0.375rem 0.75rem;
-  transition: none;
-  font-weight: 500;
-  margin-bottom: 0.25rem;
+.custom-select::-webkit-scrollbar {
+  width: 20px;
 }
-.searchButton:hover {
-  color: #fff;
-  background-color: #23272b;
-  border-color: #1d2124;
+.custom-select::-webkit-scrollbar-thumb {
+  border-radius: 100px;
+  border: 5px solid transparent;
+  background-clip: content-box;
+  background-color: #8070d4;
+}
+.custom-select::-webkit-scrollbar-track {
+  background-color: #3c334b;
+  border-radius: 100px;
 }
 .resetButton {
   display: inline-block;

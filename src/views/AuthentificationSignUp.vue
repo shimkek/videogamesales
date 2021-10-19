@@ -21,16 +21,14 @@
           />
         </div>
 
-        <button type="submit" class="btn btn-dark btn-lg btn-block">
-          Sign Up
-        </button>
+        <button type="submit" class="authButton">Sign Up</button>
 
-        <p class="forgot-password text-right">
+        <p class="text-right">
           Already registered
           <router-link to="/auth/login">sign in?</router-link>
         </p>
+        <div v-if="error" class="alert alert-danger">{{ error }}</div>
       </form>
-      <div v-if="error" class="alert alert-danger">{{ error }}</div>
     </div>
   </div>
 </template>

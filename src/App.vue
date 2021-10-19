@@ -75,6 +75,20 @@ export default {
 @import "./styles/variables.scss";
 @import "./styles/normalize.scss";
 
+html::-webkit-scrollbar {
+  width: 15px;
+}
+html::-webkit-scrollbar-thumb {
+  border-radius: 100px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+  background-color: #8070d4;
+}
+html::-webkit-scrollbar-track {
+  background-color: #3c334b;
+}
+
+
 html {
   overflow-y: scroll;
 }
@@ -172,7 +186,7 @@ body,
   margin-left: auto;
   margin-right: auto;
   margin-top: 10%;
-  padding: 20px 40px 50px 40px;
+  padding: 20px 40px 40px 40px;
   border-radius: 20px;
   height: fit-content;
 }
@@ -188,7 +202,50 @@ body,
   font-weight: 500;
 }
 
-@media only screen and (max-width: 375px) {
+.searchButton,
+.authButton {
+  display: inline-block;
+  width: 100%;
+  color: #fff;
+  background-color: #343a40;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  padding: 0.375rem 0.75rem;
+  transition: none;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+.searchButton:hover,
+.authButton:hover {
+  color: #fff;
+  background-color: #23272b;
+  border-color: #1d2124;
+}
+.authButton {
+  margin-top: 15px;
+  padding: 0.7rem 0.375rem 0.7rem 0.375rem;
+  font-size: 1.2rem;
+}
+.alert {
+  margin-top: 15px;
+  max-width: 270px;
+}
+@media only screen and (max-width: 425px) {
+  .header__text {
+    display: none;
+  }
+  .header__logo__img {
+    width: 52px;
+  }
+  .page-container {
+    margin-top: 15px !important;
+  }
+}
+@media only screen and (max-width: 576px) {
+  .header__button {
+    padding: 5px 10px 5px 10px;
+    margin-left: 10px;
+  }
 }
 @media only screen and (max-width: 768px) {
 }

@@ -1,4 +1,5 @@
 <template>
+  <!-- Disabled component -->
   <div class="steamAppNews" v-if="appNews">
     <h3>Latest news from Steam feed</h3>
     <div

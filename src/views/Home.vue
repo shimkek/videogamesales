@@ -59,6 +59,7 @@ export default {
 }
 
 .searchForm-container {
+  z-index: 6;
   @media (min-width: 1025px) {
     display: block !important;
   }
@@ -69,12 +70,13 @@ export default {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background-color: #ffffff;
-  border: 1px solid #000000;
-  color: #000000;
-  padding: 7px 18px;
-  font-size: 1.1rem;
-  border-radius: 20px;
+  padding: 5px 15px 5px 15px;
+  border: 2px solid #492a91;
+  border-radius: 15px;
+  font-size: 1rem;
+  font-weight: 500;
+  background-color: #492a91;
+  color: #dadada;
 }
 
 .searchForm__back-btn {
@@ -89,9 +91,9 @@ export default {
     width: 100%;
     height: 100%;
     position: fixed;
-    z-index: 2;
+    z-index: 6;
     top: 0;
-    background: white;
+    background-color: #262837;
   }
 
   .searchForm__button {
@@ -99,13 +101,15 @@ export default {
   }
 
   .searchForm__back-btn {
+    margin: 20px 0 20px 20px;
     display: inline-block;
-    border: none;
-    color: blueviolet;
-    margin: 10px;
-    font-size: 18px;
-    padding: 5px 12px;
-    border-radius: 8px;
+    padding: 5px 15px 5px 15px;
+    border: 2px solid #492a91;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 500;
+    background-color: #492a91;
+    color: #dadada;
   }
 }
 </style>

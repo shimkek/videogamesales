@@ -22,9 +22,7 @@
           />
         </div>
 
-        <button type="submit" class="btn btn-dark btn-lg btn-block">
-          Sign In
-        </button>
+        <button type="submit" class="authButton">Sign In</button>
       </form>
       <div v-if="error" class="alert alert-danger">{{ error }}</div>
     </div>

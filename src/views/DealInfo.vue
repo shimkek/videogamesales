@@ -40,27 +40,24 @@
         >Get the deal<b-icon icon="arrow-up-right"></b-icon
       ></a>
       <div>
-        <b-card class="about-card">
+        <div class="about-card">
           <div class="card-body_flex">
             <div class="about">
               <h4>About</h4>
-              <b-card-text>
-                Publisher: {{ dealInfo.gameInfo.publisher }}
-              </b-card-text>
+              <p>Publisher: {{ dealInfo.gameInfo.publisher }}</p>
 
-              <b-card-text v-if="dealInfo.gameInfo.releaseDate !== 0"
-                >Release date:
-                {{ formatDate(dealInfo.gameInfo.releaseDate) }}</b-card-text
-              >
-              <b-card-text>
+              <p v-if="dealInfo.gameInfo.releaseDate !== 0">
+                Release date: {{ formatDate(dealInfo.gameInfo.releaseDate) }}
+              </p>
+              <p>
                 Cheapest ever:
                 {{ dealInfo.cheapestPrice.date === 0 ? "yes" : "no, "
                 }}<span v-if="dealInfo.cheapestPrice.date !== 0"
                   >{{ dealInfo.cheapestPrice.price }}$ on
                   {{ formatDate(dealInfo.cheapestPrice.date) }}</span
                 >
-              </b-card-text>
-              <b-card-text v-if="dealInfo.cheaperStores.length > 0">
+              </p>
+              <div v-if="dealInfo.cheaperStores.length > 0">
                 There is lower price in other store: <br />
                 <p
                   v-for="cheaperDeal in dealInfo.cheaperStores"
@@ -75,8 +72,8 @@
                     >{{ cheaperDeal.salePrice }}$ at
                     {{ getStoreName(cheaperDeal.storeID) }}</router-link
                   >
-                </p></b-card-text
-              >
+                </p>
+              </div>
             </div>
             <div class="ratings">
               <div class="rating">
@@ -131,13 +128,8 @@
               </div>
             </div>
           </div>
-        </b-card>
+        </div>
       </div>
-
-      <SteamAppNews
-        v-if="dealInfo.gameInfo.steamAppID"
-        :appID="dealInfo.gameInfo.steamAppID"
-      />
 
       <div class="otherDeals" v-if="!isDealInfoLoading">
         <h3>You might also be interested</h3>
@@ -150,7 +142,6 @@
 <script>
 const axios = require("axios");
 import Deals from "../components/Deals.vue";
-import SteamAppNews from "../components/SteamAppNews.vue";
 import Loader from "../components/Loader.vue";
 
 export default {
@@ -164,7 +155,6 @@ export default {
   },
   components: {
     Deals,
-    SteamAppNews,
     Loader,
   },
   methods: {
@@ -248,8 +238,9 @@ export default {
   }
 }
 .about-card {
-  border-top-left-radius: 0;
+  border-radius: 0 15px 15px 15px;
   background-color: #262837;
+  padding: 1rem;
 }
 .otherDeals {
   margin-top: 50px;
@@ -306,6 +297,7 @@ export default {
   width: 150px;
   margin: 0;
   border-radius: 50%;
+  box-shadow: #000000c4 3px 3px 15px;
   background: black;
 
   &__text {
@@ -333,12 +325,7 @@ export default {
 //70+
 .blue {
   background: rgb(6, 184, 222);
-  background: radial-gradient(
-    circle,
-    rgba(6, 184, 222, 1) 17%,
-    rgba(41, 41, 240, 1) 45%,
-    rgba(0, 212, 255, 1) 100%
-  );
+  background: radial-gradient(circle, #00fffffc 7%, #3333ff 45%, #00d4ff 100%);
 }
 //60+
 .green {
