@@ -88,7 +88,6 @@ html::-webkit-scrollbar-track {
   background-color: #3c334b;
 }
 
-
 html {
   overflow-y: scroll;
 }

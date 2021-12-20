@@ -9,7 +9,7 @@ export default new Vuex.Store({
       params: {
         onSale: 1,
         pageNumber: 0,
-        pageSize: 50,
+        pageSize: 48,
       },
     },
     user: {

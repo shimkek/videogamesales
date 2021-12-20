@@ -98,6 +98,7 @@ export default {
 
   .searchForm__button {
     display: inline-block;
+    z-index: 5;
   }
 
   .searchForm__back-btn {

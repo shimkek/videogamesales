@@ -1,21 +1,21 @@
 <template>
-  <div class="deals" id="deals">
-    <div v-if="stores">
-      <div v-for="deal in fetchedDeals" :key="pageNumber + deal.dealID">
-        <Deal :deal="deal" />
-      </div>
-
-      <p
-        v-if="areMaxPagesReached & (this.totalPageCount !== null)"
-        class="scrollEndText"
-      >
-        <b-icon icon="emoji-frown" />
-        That's it!
-      </p>
-
-      <div class="d-flex justify-content-center mb-3" v-if="areDealsLoading">
-        <Loader />
-      </div>
+  <div>
+    <div v-if="stores" class="deals">
+      <Deal
+        v-for="deal in fetchedDeals"
+        :key="pageNumber + deal.dealID"
+        :deal="deal"
+      />
+    </div>
+    <p
+      v-if="areMaxPagesReached & (this.totalPageCount !== null)"
+      class="scrollEndText"
+    >
+      <b-icon icon="emoji-frown" />
+      That's it!
+    </p>
+    <div class="d-flex justify-content-center mb-3" v-if="areDealsLoading">
+      <Loader />
     </div>
     <div class="preloader" v-if="isPreloaderVisible" />
     <div
@@ -108,11 +108,11 @@ export default {
 
 .deals {
   color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
-.deals a:hover {
-  text-decoration: none;
-}
-
 .scrollEndText {
   font-size: 25px;
   text-align: center;
