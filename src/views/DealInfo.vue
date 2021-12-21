@@ -15,12 +15,12 @@
             {{ dealInfo.gameInfo.name }}
           </h1>
         </div>
-        <div class="storeLogo-container">
+        <div class="dealInfo__storeLogo-container">
           <img
             v-if="stores !== null"
             :src="getStoreLogo(dealInfo.gameInfo.storeID)"
             :title="getStoreName(dealInfo.gameInfo.storeID)"
-            class="storeLogo"
+            class="dealInfo__storeLogo"
           />
         </div>
       </div>
@@ -34,6 +34,7 @@
         >
         <span>{{ dealInfo.gameInfo.salePrice + "$" }}</span>
       </div>
+
       <a
         :href="'https://www.cheapshark.com/redirect?dealID=' + dealID"
         class="dealLink"
@@ -43,12 +44,44 @@
         <div class="about-card">
           <div class="card-body_flex">
             <div class="about">
+              <p v-if="RAWGFetched">
+                All the screenshots and game data is taken from
+                <a href="https://rawg.io/">rawg.io</a>
+              </p>
               <h4>About</h4>
-              <p>Publisher: {{ dealInfo.gameInfo.publisher }}</p>
 
               <p v-if="dealInfo.gameInfo.releaseDate !== 0">
                 Release date: {{ formatDate(dealInfo.gameInfo.releaseDate) }}
               </p>
+              <p>Publisher: {{ dealInfo.gameInfo.publisher }}</p>
+
+              <div v-if="RAWGFetched">
+                <p
+                  v-if="
+                    gameInfo.released && dealInfo.gameInfo.releaseDate === 0
+                  "
+                >
+                  Release date:
+                  {{
+                    new Date(Date.parse(gameInfo.released)).toLocaleDateString(
+                      "en-GB"
+                    )
+                  }}
+                </p>
+                <p v-if="gameInfo.esrb_rating">
+                  ESRB Rating: {{ gameInfo.esrb_rating.name_en }}
+                </p>
+                <p v-if="gameInfo.genres.length">
+                  Genres: {{ getGenres(gameInfo.genres) }}
+                </p>
+                <p v-if="gameInfo.platforms">
+                  Platforms: {{ getPlatformNames(gameInfo.platforms) }}
+                </p>
+                <p v-if="gameInfo.tags.length">
+                  Tags: {{ getTags(gameInfo.tags) }}
+                </p>
+              </div>
+
               <p>
                 Cheapest ever:
                 {{ dealInfo.cheapestPrice.date === 0 ? "yes" : "no, "
@@ -128,9 +161,25 @@
               </div>
             </div>
           </div>
+          <div v-if="RAWGFetched">
+            <p class="wrongGame">
+              Is this wrong? Try choosing different game below.
+            </p>
+            <select v-model="RAWGFetchedID" class="custom-select">
+              <option
+                v-for="game in RAWGFetched"
+                :key="game.id"
+                :value="RAWGFetched.indexOf(game)"
+              >
+                {{ game.name }}
+              </option>
+            </select>
+          </div>
         </div>
       </div>
-
+      <div class="deal-images" v-if="RAWGFetched">
+        <ImageSlider :games="RAWGFetched" :index="RAWGFetchedID" />
+      </div>
       <div class="otherDeals" v-if="!isDealInfoLoading">
         <h3>You might also be interested</h3>
         <Deals />
@@ -143,6 +192,7 @@
 const axios = require("axios");
 import Deals from "../components/Deals.vue";
 import Loader from "../components/Loader.vue";
+import ImageSlider from "../components/ImageSlider.vue";
 
 export default {
   data() {
@@ -151,11 +201,14 @@ export default {
       dealInfo: null,
       redirectedFromAnotherDeal: false,
       isDealInfoLoading: true,
+      RAWGFetched: null,
+      RAWGFetchedID: 0,
     };
   },
   components: {
     Deals,
     Loader,
+    ImageSlider,
   },
   methods: {
     ratingColor(rating) {
@@ -172,7 +225,7 @@ export default {
     },
     formatDate(time) {
       const date = new Date(time * 1000); // create Date object
-      return date.toLocaleDateString("ru-RU", {});
+      return date.toLocaleDateString("en-GB");
     },
     getStoreLogo(storeId) {
       return `https://www.cheapshark.com/${this.$store.state.stores[storeId].images.logo}`;
@@ -182,6 +235,7 @@ export default {
     },
     getDealInfo() {
       this.dealInfo = null;
+      this.images = null;
       this.isDealInfoLoading = true;
       //if the page was reloaded and stores object emptied
       if (this.stores === null) {
@@ -193,10 +247,58 @@ export default {
           console.log(dealInfo.data);
           this.isDealInfoLoading = false;
           this.dealInfo = dealInfo.data;
+          this.getGameInfo();
         })
         .catch(function (error) {
           console.log(error);
         });
+    },
+    getGameInfo() {
+      this.RAWGFetched = null;
+      this.RAWGFetchedID = 0;
+      axios
+        .get(
+          `https://api.rawg.io/api/games?key=${this.apiKey}&search=${
+            this.dealInfo.gameInfo.name
+          }${this.searchExact ? "&search_exact=true" : ""}`
+        )
+        .then((response) => {
+          console.log(response);
+          if (response.data.results.length > 0) {
+            console.log("Added game info.");
+            this.RAWGFetched = response.data.results;
+            this.images =
+              response.data.results[this.RAWGFetchedID].short_screenshots;
+          } else console.error("Game info not found.");
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    getPlatformNames(platforms) {
+      return platforms
+        .map((platform) => {
+          return platform.platform["name"];
+        })
+        .join(", ");
+    },
+    getTags(tags) {
+      let filteredTags = tags.filter((tag) => {
+        return tag.language === "eng";
+      });
+
+      return filteredTags
+        .map((tag) => {
+          return tag["name"];
+        })
+        .join(", ");
+    },
+    getGenres(genres) {
+      return genres
+        .map((genre) => {
+          return genre["name"];
+        })
+        .join(", ");
     },
   },
   async mounted() {
@@ -212,6 +314,15 @@ export default {
     dealID() {
       return this.$route.params.dealID;
     },
+    apiKey() {
+      return this.$store.state.RAWGApiKey;
+    },
+    searchExact() {
+      return this.$store.state.searchExactName;
+    },
+    gameInfo() {
+      return this.RAWGFetched[this.RAWGFetchedID];
+    },
   },
   watch: {
     dealID(prev) {
@@ -224,6 +335,32 @@ export default {
 </script>
 
 <style lang="scss">
+.wrongGame {
+  margin-bottom: 5px;
+  font-size: 80%;
+  color: #707070;
+}
+.deal-images {
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background: #262837;
+}
+.dealInfo__storeLogo-container {
+  display: flex;
+  justify-items: center;
+  flex-direction: row;
+  align-content: flex-end;
+  align-items: center;
+  justify-content: flex-end;
+}
+.dealInfo__storeLogo {
+  width: inherit;
+  max-height: 64px;
+  max-width: 64px;
+  object-fit: contain;
+}
 .dealInfo__header {
   display: flex;
   justify-content: space-between;

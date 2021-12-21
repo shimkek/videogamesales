@@ -20,6 +20,8 @@ export default new Vuex.Store({
     areDealsLoading: true,
     cheapSharkAPILink: "https://www.cheapshark.com/api/1.0/deals",
     totalPageCount: null,
+    RAWGApiKey: "6b69ce6eb521454d94d35d17a6c94542",
+    searchExactName: true,
   },
   mutations: {
     addDeals(state, deals) {
