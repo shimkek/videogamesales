@@ -51,9 +51,13 @@
               <h4>About</h4>
 
               <p v-if="dealInfo.gameInfo.releaseDate !== 0">
-                Release date: {{ formatDate(dealInfo.gameInfo.releaseDate) }}
+                <span class="boldItem">Release date: </span>
+                {{ formatDate(dealInfo.gameInfo.releaseDate) }}
               </p>
-              <p>Publisher: {{ dealInfo.gameInfo.publisher }}</p>
+              <p>
+                <span class="boldItem">Publisher: </span>
+                {{ dealInfo.gameInfo.publisher }}
+              </p>
 
               <div v-if="RAWGFetched">
                 <p
@@ -61,7 +65,7 @@
                     gameInfo.released && dealInfo.gameInfo.releaseDate === 0
                   "
                 >
-                  Release date:
+                  <span class="boldItem">Release date: </span>
                   {{
                     new Date(Date.parse(gameInfo.released)).toLocaleDateString(
                       "en-GB"
@@ -69,21 +73,25 @@
                   }}
                 </p>
                 <p v-if="gameInfo.esrb_rating">
-                  ESRB Rating: {{ gameInfo.esrb_rating.name_en }}
+                  <span class="boldItem">ESRB Rating: </span>
+                  {{ gameInfo.esrb_rating.name_en }}
                 </p>
                 <p v-if="gameInfo.genres.length">
-                  Genres: {{ getGenres(gameInfo.genres) }}
+                  <span class="boldItem">Genres: </span>
+                  {{ getGenres(gameInfo.genres) }}
                 </p>
                 <p v-if="gameInfo.platforms">
-                  Platforms: {{ getPlatformNames(gameInfo.platforms) }}
+                  <span class="boldItem">Platforms: </span>
+                  {{ getPlatformNames(gameInfo.platforms) }}
                 </p>
                 <p v-if="gameInfo.tags.length">
-                  Tags: {{ getTags(gameInfo.tags) }}
+                  <span class="boldItem">Tags: </span>
+                  {{ getTags(gameInfo.tags) }}
                 </p>
               </div>
 
               <p>
-                Cheapest ever:
+                <span class="boldItem">Cheapest ever: </span>
                 {{ dealInfo.cheapestPrice.date === 0 ? "yes" : "no, "
                 }}<span v-if="dealInfo.cheapestPrice.date !== 0"
                   >{{ dealInfo.cheapestPrice.price }}$ on
@@ -91,7 +99,9 @@
                 >
               </p>
               <div v-if="dealInfo.cheaperStores.length > 0">
-                There is lower price in other store: <br />
+                <span class="boldItem"
+                  >There is lower price in other store: </span
+                ><br />
                 <p
                   v-for="cheaperDeal in dealInfo.cheaperStores"
                   :key="cheaperDeal.dealID"
@@ -335,6 +345,9 @@ export default {
 </script>
 
 <style lang="scss">
+.boldItem {
+  font-weight: 700;
+}
 .wrongGame {
   margin-bottom: 5px;
   font-size: 80%;
@@ -345,6 +358,7 @@ export default {
   border-bottom-right-radius: 15px;
   margin-top: 20px;
   margin-bottom: 20px;
+  padding-bottom: 4%;
   background: #262837;
 }
 .dealInfo__storeLogo-container {
@@ -446,7 +460,7 @@ export default {
     font-weight: 400;
   }
   &__description-icon {
-    height: 1.5rem;
+    height: 1rem;
     padding-right: 2px;
   }
 }

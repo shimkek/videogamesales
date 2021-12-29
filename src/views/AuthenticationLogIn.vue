@@ -1,7 +1,7 @@
 <template>
   <div class="authContainer">
     <div class="authForm">
-      <form @submit.prevent="onSubmit">
+      <form @submit.prevent="logIn">
         <h3>Sign In</h3>
 
         <div class="form-group">
@@ -30,7 +30,8 @@
 </template>
 
 <script>
-import firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/auth";
 
 export default {
   data() {
@@ -43,12 +44,12 @@ export default {
     };
   },
   methods: {
-    onSubmit() {
+    logIn() {
       firebase
         .auth()
         .signInWithEmailAndPassword(this.form.email, this.form.password)
         .then(() => {
-          this.$router.replace({ name: "LikedDeals" });
+          this.$router.push({ name: "LikedDeals" });
         })
         .catch((err) => {
           this.error = err.message;

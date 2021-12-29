@@ -15,6 +15,8 @@ export default new Vuex.Store({
     user: {
       loggedIn: false,
       data: null,
+      likedDeals: [],
+      uid: null,
     },
     stores: null,
     areDealsLoading: true,
@@ -45,11 +47,19 @@ export default new Vuex.Store({
     clearDeals(state) {
       state.fetchedDeals = [];
     },
-    setLoggedIn(state, value) {
-      state.user.loggedIn = value;
+    setUser(state, user) {
+      state.user.uid = user.uid;
+      state.user.data = user.data;
+      state.user.loggedIn = user.loggedIn;
     },
-    setUser(state, data) {
-      state.user.data = data;
+    addLikedDeal(state, likedDeal) {
+      state.user.likedDeals.push(likedDeal);
+    },
+    removeLikedDeal(state, index) {
+      state.user.likedDeals.splice(index, 1);
+    },
+    emptyLikedDeals(state) {
+      state.user.likedDeals = [];
     },
   },
   actions: {
@@ -64,11 +74,7 @@ export default new Vuex.Store({
             "changeTotalPageCount",
             Number(response.headers["x-total-page-count"])
           );
-          console.log(
-            `${context.state.params.params.pageNumber + 1}/${
-              context.state.totalPageCount
-            }`
-          );
+          //console.log(`${context.state.params.params.pageNumber + 1}/${context.state.totalPageCount}`);
         });
       context.commit("changeDealsLoadingStatus", false);
     },
@@ -88,13 +94,27 @@ export default new Vuex.Store({
       context.dispatch("fetchDeals");
     },
     fetchUser(context, user) {
-      context.commit("setLoggedIn", user !== null);
       if (user) {
-        context.commit("setUser", {
-          email: user.email,
-        });
+        console.log("user uid: " + user.uid);
+        const newUser = {
+          loggedIn: true,
+          data: {
+            email: user.email,
+          },
+          uid: user.uid,
+        };
+        context.commit("setUser", newUser);
       } else {
-        context.commit("setUser", null);
+        const newUser = {
+          loggedIn: false,
+          data: {
+            email: null,
+          },
+          uid: null,
+        };
+        console.log("User null.");
+        context.commit("emptyLikedDeals");
+        context.commit("setUser", newUser);
       }
     },
   },

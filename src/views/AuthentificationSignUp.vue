@@ -1,7 +1,7 @@
 <template>
   <div class="authContainer">
     <div class="authForm">
-      <form @submit.prevent="onSubmit">
+      <form @submit.prevent="register">
         <h3>Sign Up</h3>
         <div class="form-group">
           <label class="label_bold">Email address</label>
@@ -34,7 +34,9 @@
 </template>
 
 <script>
-import firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/auth";
+import db from "../firebase/firebaseInit";
 
 export default {
   data() {
@@ -47,14 +49,21 @@ export default {
     };
   },
   methods: {
-    onSubmit() {
+    async register() {
       firebase
         .auth()
         .createUserWithEmailAndPassword(this.form.email, this.form.password)
         .then(() => {
-          this.$router.replace({ name: "Home" });
+          const uid = firebase.auth().currentUser.uid;
+          db.ref("users/" + uid).set({
+            email: firebase.auth().currentUser.email,
+          });
+        })
+        .then(() => {
+          this.$router.push({ name: "Home" });
         })
         .catch((err) => {
+          console.log(err.message);
           this.error = err.message;
         });
     },

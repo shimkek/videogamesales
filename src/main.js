@@ -3,7 +3,9 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
-import firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/auth";
+import db from "./firebase/firebaseInit";
 
 import VueObserveVisibility from "vue-observe-visibility";
 Vue.use(VueObserveVisibility);
@@ -18,26 +20,51 @@ Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 
 Vue.config.productionTip = false;
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDC2sMf0c3Weol2jX9W3KlGhGVm0Y3XMRg",
-  authDomain: "videogamesales-43fbd.firebaseapp.com",
-  databaseURL:
-    "https://videogamesales-43fbd-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "videogamesales-43fbd",
-  storageBucket: "videogamesales-43fbd.appspot.com",
-  messagingSenderId: "375618188872",
-  appId: "1:375618188872:web:6d7b7d2a5f79432cd18a7d",
-};
-
-firebase.initializeApp(firebaseConfig);
-
+let app;
 firebase.auth().onAuthStateChanged((user) => {
+  if (!app) {
+    new Vue({
+      router,
+      store,
+      render: (h) => h(App),
+    }).$mount("#app");
+  }
   store.dispatch("fetchUser", user);
-});
+  if (user) {
+    //get likedDeals and set listeners
+    db.ref("users/" + user.uid + "/likedDeals").on(
+      "child_added",
+      (childSnapshot) => {
+        console.log("Added to liked: " + childSnapshot.val());
+        store.commit("addLikedDeal", {
+          id: childSnapshot.val(),
+          data: null,
+          key: childSnapshot.key,
+        });
+      }
+    );
 
-new Vue({
-  router,
-  store,
-  render: (h) => h(App),
-}).$mount("#app");
+    db.ref("users/" + user.uid + "/likedDeals").on(
+      "child_removed",
+      (childSnapshot) => {
+        console.log("Removed from liked: " + childSnapshot.val());
+        let foundIndex = -1;
+
+        store.state.user.likedDeals.map((element, index) => {
+          if (element.id === childSnapshot.val()) {
+            foundIndex = index;
+            return;
+          }
+        });
+        if (foundIndex > -1) {
+          store.commit("removeLikedDeal", foundIndex);
+        } else {
+          console.error("The index of the deal to remove was not found.");
+        }
+      }
+    );
+  } else {
+    //disable listener
+    db.ref().off();
+  }
+});

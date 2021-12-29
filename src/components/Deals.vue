@@ -42,7 +42,7 @@ export default {
         intersection: {
           threshold: 1.0,
         },
-        throttle: 600,
+        throttle: 400,
       },
     };
   },
@@ -57,8 +57,8 @@ export default {
     }
   },
   methods: {
-    visibilityChanged(isVisible, entry) {
-      console.log(entry);
+    visibilityChanged(isVisible) {
+      //console.log(entry);
       if (isVisible && !this.areDealsLoading) {
         console.log("load more deals");
         this.$store.dispatch("loadMoreDeals");
@@ -74,9 +74,6 @@ export default {
     },
     stores() {
       return this.$store.state.stores;
-    },
-    dealsLink() {
-      return this.$store.state.searchQuery;
     },
     areDealsLoading() {
       return this.$store.state.areDealsLoading;

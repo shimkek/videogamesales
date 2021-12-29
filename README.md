@@ -1,8 +1,7 @@
 # videogamesales
-Displays hot videogame deals and detailed information about them. Allows comparing prices in different stores. Uses cheapshark.com API.
+Displays hot videogame deals and detailed information about them. Allows comparing prices in different stores. Uses cheapshark.com API for delas and rawg.io API for screenshots and game information. Firebase is used for the user email and password authentification, storing user's liked deals. 
 
-To enable the Steam News Component and bypass CORS error, please, visit https://cors-anywhere.herokuapp.com and press the button to allow use for your ip adress.
-
+HorizontalDeal and SteamAppNews are deprecated components.
 ## Project setup
 ```
 npm install
@@ -22,6 +21,3 @@ npm run build
 ```
 npm run lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

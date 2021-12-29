@@ -25,8 +25,11 @@
           v-if="deal.normalPrice !== deal.salePrice"
           class="discountPercentage"
           >{{ "-" + Math.trunc(deal.savings) + "%" }}</span
-        ><span class="heart"
-          ><span class="heart__symbol" @click="addToLiked(deal.dealID)"
+        ><span class="heart" :class="{ heart_active: isLiked }"
+          ><span
+            class="heart__symbol"
+            :class="{ heart_active__symbol: isLiked }"
+            @click="addToLiked(deal.dealID)"
             >♡</span
           ></span
         >
@@ -39,7 +42,9 @@
         >
         <span class="price price_discounted">{{ deal.salePrice + "$" }}</span>
       </div>
-      <p class="updated-text">Last updated {{ formatDate(deal.lastChange) }}</p>
+      <p v-if="deal.lastChange" class="updated-text">
+        Last updated {{ formatDate(deal.lastChange) }}
+      </p>
     </div>
     <div cols="2" class="storeLogo-container">
       <img
@@ -51,7 +56,21 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
+import firebase from "firebase/app";
+import db from "../firebase/firebaseInit";
+
 export default {
+  data() {
+    return {
+      isLiked: false,
+    };
+  },
+  mounted() {
+    if (this.checkForDuplicateDeals(this.deal.dealID)) {
+      this.isLiked = true;
+    }
+  },
   props: {
     deal: Object,
   },
@@ -73,27 +92,77 @@ export default {
       return thumb;
     },
     addToLiked(dealID) {
-      console.log("Added to favorites " + dealID);
+      if (this.user.loggedIn && db) {
+        if (this.checkForDuplicateDeals(dealID)) {
+          console.log("This deal is already added to Liked Deals.");
+          console.log("Removing this deal from the Liked List.");
+          this.removeFromLiked(dealID);
+          return;
+        }
+        db.ref(
+          "users/" + firebase.auth().currentUser.uid + "/likedDeals/"
+        ).push(dealID);
+        this.isLiked = true;
+      } else {
+        console.log("The user is not authorized.");
+      }
+    },
+    removeFromLiked(dealID) {
+      const duplicateFound = this.checkForDuplicateDeals(dealID);
+      if (this.user.loggedIn && db && duplicateFound) {
+        const dealKey = this.likedDeals.find(
+          (likedDeal) => likedDeal.id === dealID
+        ).key;
+        console.log(dealKey);
+        if (dealKey) {
+          db.ref(
+            "users/" +
+              firebase.auth().currentUser.uid +
+              "/likedDeals/" +
+              dealKey
+          ).remove();
+          this.isLiked = false;
+        }
+      }
+    },
+    checkForDuplicateDeals(dealID) {
+      const foundDeal = this.likedDeals.find(
+        (likedDeal) => likedDeal.id === dealID
+      );
+      if (foundDeal) {
+        this.isLiked = true;
+        return true;
+      }
+      return false;
     },
   },
   computed: {
-    fetchedDeals() {
-      return this.$store.state.fetchedDeals;
-    },
     stores() {
       return this.$store.state.stores;
     },
-    dealsLink() {
-      return this.$store.state.searchQuery;
+    likedDeals() {
+      return this.$store.state.user.likedDeals;
+    },
+    ...mapGetters({
+      user: "user",
+    }),
+  },
+  watch: {
+    "$store.state.user.likedDeals": function () {
+      if (this.checkForDuplicateDeals(this.deal.dealID)) {
+        this.isLiked = true;
+      }
     },
   },
 };
 </script>
 <style lang="scss">
 .heart {
+  transition-timing-function: ease-in;
+  transition: cubic-bezier(0.895, 0.03, 0.685, 0.22) 400ms;
   position: absolute;
   z-index: 4;
-  top: 50px;
+  top: 10px;
   right: 10px;
   display: flex;
   justify-content: center;
@@ -111,13 +180,26 @@ export default {
     color: darkgray;
   }
 }
+.heart_active {
+  background-color: #c7005d;
+  transition-timing-function: ease-in;
+  transition: cubic-bezier(0.895, 0.03, 0.685, 0.22) 400ms;
+  &__symbol {
+    transition: width 2s;
+    color: black;
+  }
+}
 .discountPercentage {
   font-size: 12px;
   margin-left: 5px;
+  padding: 3px 6px 3px 6px;
+  border-radius: 10px;
+  background-color: rgba(99, 99, 99, 0.226);
+  white-space: nowrap;
 }
 .title {
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 1.2rem;
+  font-weight: 600;
   text-decoration: none;
   color: #ffffff;
 }
@@ -185,7 +267,7 @@ export default {
   position: absolute;
   z-index: 4;
   top: 10px;
-  right: 10px;
+  left: 10px;
   display: flex;
   justify-items: center;
   flex-direction: row;

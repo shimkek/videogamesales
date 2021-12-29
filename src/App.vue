@@ -44,7 +44,8 @@
 </template>
 
 <script>
-import firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/auth";
 import { mapGetters } from "vuex";
 export default {
   methods: {
@@ -60,6 +61,7 @@ export default {
             });
           }
         });
+      window.location.reload();
     },
   },
   computed: {
@@ -249,8 +251,5 @@ body,
 @media only screen and (max-width: 768px) {
 }
 @media only screen and (min-width: 1024px) {
-  .header__contents {
-    // width: 740px;
-  }
 }
 </style>
