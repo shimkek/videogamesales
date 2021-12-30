@@ -345,6 +345,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import "../styles/variables.scss";
 .boldItem {
   font-weight: 700;
 }
@@ -359,7 +360,7 @@ export default {
   margin-top: 20px;
   margin-bottom: 20px;
   padding-bottom: 4%;
-  background: #262837;
+  background: $secondary-color;
 }
 .dealInfo__storeLogo-container {
   display: flex;
@@ -381,7 +382,9 @@ export default {
   padding-right: 20px;
 }
 .dealInfo__title {
+  margin-top: 0;
   color: #fff;
+  font-size: 2.5rem;
 }
 .about {
   &__cheaperDeal {
@@ -390,7 +393,7 @@ export default {
 }
 .about-card {
   border-radius: 0 15px 15px 15px;
-  background-color: #262837;
+  background-color: $secondary-color;
   padding: 1rem;
 }
 .otherDeals {

@@ -171,6 +171,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import "../styles/variables.scss";
 .custom-select::-webkit-scrollbar {
   width: 20px;
 }
@@ -213,25 +214,26 @@ option:disabled {
   text-align: center;
 }
 
+.pageCounter {
+  display: none;
+}
+.formBlock {
+  margin-top: 5px;
+  width: 100%;
+}
 .searchForm {
-  position: sticky;
-  top: 20px;
-  background-color: #262837;
+  position: static;
+  width: 100%;
+  background-color: $secondary-color;
   color: #828191;
-
   &__contents {
-    width: 260px;
-    display: flex;
-    justify-content: space-between;
-    padding: 12px;
-    border: 1px solid rgba(0, 0, 0, 0.125);
-    flex-direction: column;
-    align-items: stretch;
-  }
-  &__contents label {
-    color: rgb(155, 154, 172);
+    border: none;
+    padding: 0 20px 0 20px;
+    width: 100%;
+    height: initial;
   }
 }
+
 .custom-select {
   width: 100%;
   background-color: #363342 !important;
@@ -243,21 +245,21 @@ option:disabled {
     padding-right: 1%;
   }
 }
-@media only screen and (max-width: 1024px) {
-  .pageCounter {
-    display: none;
-  }
-  .formBlock {
-    margin-top: 10px;
-  }
+@media only screen and (min-width: 992px) {
   .searchForm {
-    position: static;
-    width: 100%;
+    position: sticky;
+    top: 20px;
     &__contents {
-      border: none;
-      padding: 0 20px 0 20px;
-      width: 100%;
-      height: initial;
+      width: 260px;
+      display: flex;
+      justify-content: space-between;
+      padding: 12px;
+      border: 1px solid rgba(0, 0, 0, 0.125);
+      flex-direction: column;
+      align-items: stretch;
+    }
+    &__contents label {
+      color: rgb(155, 154, 172);
     }
   }
 }

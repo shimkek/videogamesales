@@ -115,26 +115,4 @@ export default {
   text-align: center;
   color: var(--secondary);
 }
-@media only screen and (max-width: 768px) {
-  .price {
-    padding-bottom: 5px;
-  }
-}
-@media only screen and (max-width: 425px) {
-  .title {
-    font-size: 1.3rem;
-  }
-  .custom-card {
-    margin-bottom: 8px;
-  }
-}
-@media only screen and (max-width: 576px) {
-  .title {
-    font-size: 1.1rem;
-  }
-  .custom-col {
-    padding-right: 0 !important;
-    padding-left: 0 !important;
-  }
-}
 </style>

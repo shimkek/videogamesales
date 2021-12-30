@@ -47,6 +47,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import "../styles/variables.scss";
 .page-container {
   position: relative;
   margin-top: 30px;
@@ -60,7 +61,7 @@ export default {
 
 .searchForm-container {
   z-index: 6;
-  @media (min-width: 1025px) {
+  @media (min-width: 992px) {
     display: block !important;
   }
 }
@@ -71,11 +72,11 @@ export default {
   bottom: 20px;
   right: 20px;
   padding: 5px 15px 5px 15px;
-  border: 2px solid #492a91;
+  border: 2px solid $dark-purple;
   border-radius: 15px;
   font-size: 1rem;
   font-weight: 500;
-  background-color: #492a91;
+  background-color: $dark-purple;
   color: #dadada;
 }
 
@@ -83,7 +84,7 @@ export default {
   display: none;
 }
 
-@media only screen and (max-width: 1024px) {
+@media only screen and (max-width: 992px) {
   .deals-container {
     margin-right: 0px;
   }
@@ -93,7 +94,7 @@ export default {
     position: fixed;
     z-index: 6;
     top: 0;
-    background-color: #262837;
+    background-color: $secondary-color;
   }
 
   .searchForm__button {
@@ -105,11 +106,11 @@ export default {
     margin: 20px 0 20px 20px;
     display: inline-block;
     padding: 5px 15px 5px 15px;
-    border: 2px solid #492a91;
+    border: 2px solid $dark-purple;
     border-radius: 10px;
     font-size: 1rem;
     font-weight: 500;
-    background-color: #492a91;
+    background-color: $dark-purple;
     color: #dadada;
   }
 }

@@ -157,6 +157,7 @@ export default {
 };
 </script>
 <style lang="scss">
+@import "../styles/variables.scss";
 .heart {
   transition-timing-function: ease-in;
   transition: cubic-bezier(0.895, 0.03, 0.685, 0.22) 400ms;
@@ -166,14 +167,14 @@ export default {
   right: 10px;
   display: flex;
   justify-content: center;
-  height: 30px;
-  width: 30px;
+  height: 40px;
+  width: 40px;
   background-color: #363342;
   border-radius: 10px;
   &__symbol {
-    margin: -5px;
+    margin: -6px;
     color: gray;
-    font-size: 28px;
+    font-size: 35px;
   }
   &__symbol:hover {
     cursor: pointer;
@@ -198,7 +199,7 @@ export default {
   white-space: nowrap;
 }
 .title {
-  font-size: 1.2rem;
+  font-size: 0.8rem;
   font-weight: 600;
   text-decoration: none;
   color: #ffffff;
@@ -220,9 +221,9 @@ export default {
   position: relative;
   border-radius: 30px;
   margin-bottom: 18px;
-  width: 31%;
+  width: 98%;
   max-height: 300px;
-  background-color: #262837 !important;
+  background-color: $secondary-color !important;
   &__image {
     overflow: hidden;
     position: relative;
@@ -250,7 +251,7 @@ export default {
   }
 }
 .price {
-  font-size: 20px;
+  font-size: 12px;
   padding-bottom: 10px;
   &_normal {
     color: red;
@@ -277,8 +278,72 @@ export default {
 }
 .storeLogo {
   width: inherit;
-  max-height: 32px;
-  max-width: 32px;
+  max-height: 40px;
+  max-width: 40px;
   object-fit: contain;
+}
+@media only screen and (min-width: 320px) {
+  .custom-card {
+    width: 49%;
+  }
+  .price {
+    font-size: 12px;
+  }
+}
+@media (min-width: 446px) {
+  .updated-text {
+    font-size: 80%;
+  }
+  .title {
+    font-size: 1rem;
+  }
+  .price {
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .price_normal {
+    background-image: linear-gradient(
+      transparent 10px,
+      #cc1f1f 9px,
+      #cc1f1f 11px,
+      transparent 13px
+    );
+  }
+  @media (min-width: 768px) {
+    .storeLogo {
+      max-height: 32px;
+      max-width: 32px;
+    }
+    .heart {
+      height: 30px;
+      width: 30px;
+      &__symbol {
+        margin: -5px;
+        color: gray;
+        font-size: 28px;
+      }
+    }
+    .custom-card {
+      width: 31%;
+    }
+  }
+}
+
+@media (min-width: 1200px) {
+  .title {
+    font-size: 1.2rem;
+  }
+  .price {
+    font-size: 20px;
+    font-weight: 400;
+  }
+  .price_normal {
+    background-image: linear-gradient(
+      transparent 11px,
+      #cc1f1f 15px,
+      #cc1f1f 15px,
+      transparent 13px
+    );
+  }
 }
 </style>

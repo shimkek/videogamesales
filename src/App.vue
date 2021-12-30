@@ -2,17 +2,17 @@
   <div id="app">
     <header class="header">
       <div class="header__contents container">
-        <div class="header__brand-symbols">
-          <div class="header__logo">
-            <img
-              class="header__logo__img"
-              src="https://emojipedia-us.s3.amazonaws.com/source/skype/289/alien-monster_1f47e.png"
-            />
+        <router-link to="/">
+          <div class="header__brand-symbols">
+            <div class="header__logo">
+              <img
+                class="header__logo__img"
+                src="https://emojipedia-us.s3.amazonaws.com/source/skype/289/alien-monster_1f47e.png"
+              />
+            </div>
+            <div class="header__text-container header__text">GameDeal$</div>
           </div>
-          <div class="header__text-container">
-            <router-link to="/" class="header__text">GameDeal$</router-link>
-          </div>
-        </div>
+        </router-link>
 
         <div class="d-flex align-items-center">
           <template v-if="user.loggedIn">
@@ -36,7 +36,6 @@
         </div>
       </div>
     </header>
-
     <div class="body-contents">
       <router-view />
     </div>
@@ -76,7 +75,6 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap");
 @import "./styles/variables.scss";
 @import "./styles/normalize.scss";
-
 html::-webkit-scrollbar {
   width: 15px;
 }
@@ -121,9 +119,9 @@ body,
   &__button {
     padding: 5px 15px 5px 15px;
     margin-left: 15px;
-    border: 2px solid #492a91;
+    border: 2px solid $dark-purple;
     border-radius: 15px;
-    font-size: 1rem;
+    font-size: 0.8rem;
     font-weight: 500;
     background-color: transparent;
     color: #dadada;
@@ -137,10 +135,12 @@ body,
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 6px 0px;
+    padding-top: 6px;
+    padding-bottom: 6px;
   }
 
   &__text {
+    display: none;
     font-family: "Permanent Marker", cursive;
     color: #8b5cf6 !important;
     font-size: 30px;
@@ -183,7 +183,7 @@ body,
 }
 .authForm {
   color: #ffffff;
-  background-color: #262837;
+  background-color: $secondary-color;
   margin-left: auto;
   margin-right: auto;
   margin-top: 10%;
@@ -215,6 +215,7 @@ body,
   transition: none;
   font-weight: 500;
   margin-bottom: 0.25rem;
+  line-height: inherit;
 }
 .searchButton:hover,
 .authButton:hover {
@@ -231,25 +232,14 @@ body,
   margin-top: 15px;
   max-width: 270px;
 }
-@media only screen and (max-width: 425px) {
-  .header__text {
-    display: none;
-  }
-  .header__logo__img {
-    width: 52px;
-  }
-  .page-container {
-    margin-top: 15px !important;
-  }
-}
-@media only screen and (max-width: 576px) {
+@media only screen and (min-width: 320px) {
   .header__button {
-    padding: 5px 10px 5px 10px;
-    margin-left: 10px;
+    font-size: 1rem;
   }
 }
-@media only screen and (max-width: 768px) {
-}
-@media only screen and (min-width: 1024px) {
+@media (min-width: 446px) {
+  .header__text {
+    display: block;
+  }
 }
 </style>
